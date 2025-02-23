@@ -1,0 +1,34 @@
+---
+description: Guide for writing comemnts in js, ts, jSX and tsx files 
+globs: 
+---
+
+## Commenting Guidelines
+Never at any point in time use any other commenting style
+- short comments in jsx:
+
+```
+{/* ~ ======= comment here ======= ~ */}
+```
+
+- long comments in jsx:
+
+```
+{/* ~ =================================== ~ */}
+{/* -- comment here -- */}
+{/* ~ =================================== ~ */}
+```
+
+- short comment in js:
+
+```
+// ~ ======= comment here ======= ~
+```
+
+- long comment in js:
+
+```
+/* ~ =================================== ~ */
+/* -- comment here -- */
+/* ~ =================================== ~ */
+```
