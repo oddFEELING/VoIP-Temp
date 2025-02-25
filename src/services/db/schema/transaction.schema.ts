@@ -36,6 +36,10 @@ export const transactions = pgTable("transactions", {
     postCode: string;
   }>(),
   status: transactionStatus("payment_status").default("pending"),
+  recieverFirstName: text("reciever_first_name").notNull(),
+  recieverLastName: text("reciever_last_name").notNull(),
+  recieverPhone: text("reciever_phone").notNull(),
+  recieverEmail: text("reciever_email").notNull(),
   createdAt: timestamp("created_at", { mode: "string" }).defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow(),
 });

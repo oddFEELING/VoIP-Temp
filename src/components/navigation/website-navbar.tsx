@@ -35,11 +35,6 @@ import {
 import { useTheme } from "next-themes";
 import useUser from "@/hooks/use-user";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@radix-ui/react-popover";
 import useWindowScroll from "beautiful-react-hooks/useWindowScroll";
 import { cn } from "@/lib/utils";
 import UserCartSheet from "../sheets/user-cart-sheet";
@@ -58,7 +53,6 @@ const WebsiteNavBar: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const [showCartSheet, setShowCartSheet] = useState(false);
   const [showWishlistSheet, setShowWishlistSheet] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout>();
   const onWindowScroll = useWindowScroll();
@@ -73,17 +67,6 @@ const WebsiteNavBar: React.FC = () => {
   onWindowScroll((event) => {
     setScrollY(window.scrollY);
   });
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 150);
-  };
 
   // ~ ======= Animation variants for nav items -->
   const navItemVariants = {
@@ -148,48 +131,12 @@ const WebsiteNavBar: React.FC = () => {
           {/* ~ ======= About us page --> */}
           <motion.div variants={navItemVariants}>
             <Link
-              href="#"
+              href="/about"
               className="text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"
             >
               About us
             </Link>
           </motion.div>
-
-          {/* ~ ======= Voip Products popover --> */}
-          <Popover open={isOpen}>
-            <PopoverTrigger
-              asChild
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <motion.div
-                variants={navItemVariants}
-                className="flex w-max cursor-pointer items-center space-x-2 outline-none data-[state=open]:ring-0"
-              >
-                <span className="text-muted-foreground hover:text-primary dark:hover:text-accent-foreground">
-                  Voip Products
-                </span>
-                <ChevronDown size={16} strokeWidth={1.5} />
-              </motion.div>
-            </PopoverTrigger>
-            <PopoverContent
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              side="bottom"
-              align="center"
-              sideOffset={10}
-              className="w-56 rounded-md bg-background p-4 shadow-md outline-none data-[state=open]:ring-1 data-[state=open]:ring-muted"
-            >
-              <div className="flex flex-col gap-2">
-                <Link href="#" className="transition-colors hover:text-primary">
-                  Voip Phones
-                </Link>
-                <Link href="#" className="transition-colors hover:text-primary">
-                  Voip Softphones
-                </Link>
-              </div>
-            </PopoverContent>
-          </Popover>
 
           {/* ~ ======= Contact us page --> */}
           <motion.div variants={navItemVariants}>
@@ -202,10 +149,10 @@ const WebsiteNavBar: React.FC = () => {
           </motion.div>
           <motion.div variants={navItemVariants}>
             <Link
-              href="#"
+              href="/packages"
               className="text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"
             >
-              Pricing
+              Packages
             </Link>
           </motion.div>
         </motion.div>

@@ -72,7 +72,7 @@ export default function FeaturesSection() {
         />
       </div>
 
-      <div className="container mx-auto max-w-7xl py-24">
+      <div className="container mx-auto max-w-7xl py-24 lg:pb-32">
         {/* ~ ======= Section label and headers ======= ~ */}
         <motion.div
           initial="hidden"
@@ -89,8 +89,9 @@ export default function FeaturesSection() {
           </motion.p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <motion.div variants={itemVariants}>
-              <h2 className="border-b-0 text-4xl font-bold text-foreground">
+              <h2 className="border-b-0 text-4xl font-bold text-foreground sm:text-5xl">
                 Discover Top&nbsp;
+                <br />
                 <span className="text-primary dark:text-secondary">
                   VoIP Hardware Brands
                 </span>

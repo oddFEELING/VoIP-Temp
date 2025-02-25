@@ -6,6 +6,10 @@ import { HeroParallax } from "@/components/ui/hero-parallax";
 import { BackgroundGradients } from "@/components/ui/background-gradients";
 import WelcomeSection from "@/components/page-sections/landing/welcome-section";
 import FeaturesSection from "@/components/page-sections/landing/features-section";
+import PlatformFeaturesSection from "@/components/page-sections/landing/platform-features-section";
+import TrustSection from "@/components/page-sections/landing/trsut-section";
+import PackagesCTA from "@/components/page-sections/landing/packages-cta";
+import { GlobeDemo } from "@/components/page-sections/landing/text";
 
 export default function Home() {
   const { user } = useUser();
@@ -17,6 +21,9 @@ export default function Home() {
       <HeroParallax products={products} />
       <WelcomeSection />
       <FeaturesSection />
+      <TrustSection />
+      <PlatformFeaturesSection />
+      <PackagesCTA />
     </div>
   );
 }

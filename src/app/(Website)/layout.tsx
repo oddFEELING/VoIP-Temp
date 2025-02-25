@@ -5,7 +5,7 @@ import useUser from "@/hooks/use-user";
 import { createClient } from "@/services/db/supabase/supabase";
 import { useEffect, useRef } from "react";
 import { appLogger } from "@/lib/logger";
-
+import FooterSection from "@/components/page-sections/landing/footer-section";
 type WebsiteLayoutProps = {
   children: React.ReactNode;
 };
@@ -53,6 +53,7 @@ const WebsiteLayout: React.FC<WebsiteLayoutProps> = ({ children }) => {
     <>
       <WebsiteNavBar />
       {children}
+      <FooterSection />
     </>
   );
 };

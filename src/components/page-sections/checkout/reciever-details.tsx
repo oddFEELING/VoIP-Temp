@@ -1,15 +1,27 @@
-"use client"
+"use client";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import useUser from "@/hooks/use-user";
 
-// Form Schema 
+// Form Schema
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
@@ -23,17 +35,22 @@ interface RecieverDetailsProps {
   initialData?: RecieverFormData;
 }
 
-const RecieverDetails: React.FC<RecieverDetailsProps> = ({ 
+const RecieverDetails: React.FC<RecieverDetailsProps> = ({
   initialData = {
     firstName: "",
     lastName: "",
     phone: "",
     email: "",
-  }
+  },
 }) => {
+  const { user, isAnonymous } = useUser();
   const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState<RecieverFormData>(initialData);
-  
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   const form = useForm<RecieverFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
@@ -75,7 +92,7 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({
 
         <AccordionTrigger className="h-max">
           <Button variant="ghost" size="sm" className="h-8 px-3">
-            Edit
+            Edit {isAnonymous ? "Guest" : "User"}
           </Button>
         </AccordionTrigger>
       </div>
@@ -83,7 +100,10 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({
       <AccordionContent className="mt-4">
         <div className="space-y-3 border-t pt-4">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-4"
+            >
               <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -112,7 +132,7 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({
                   )}
                 />
               </div>
-              
+
               <FormField
                 control={form.control}
                 name="phone"
@@ -120,7 +140,11 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({
                   <FormItem>
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter phone number" type="tel" {...field} />
+                      <Input
+                        placeholder="Enter phone number"
+                        type="tel"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -134,17 +158,23 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter email address" type="email" {...field} />
+                      <Input
+                        placeholder="Enter email address"
+                        type="email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full"
-                disabled={!form.formState.isValid || form.formState.isSubmitting}
+                disabled={
+                  !form.formState.isValid || form.formState.isSubmitting
+                }
               >
                 Save Changes
               </Button>
