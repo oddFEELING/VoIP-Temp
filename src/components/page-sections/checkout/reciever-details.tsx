@@ -20,6 +20,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import useUser from "@/hooks/use-user";
+import { useParams } from "next/navigation";
+import usePayment, { useMutatePayments } from "@/hooks/use-payment";
 
 // Form Schema
 const formSchema = z.object({
@@ -35,21 +37,12 @@ interface RecieverDetailsProps {
   initialData?: RecieverFormData;
 }
 
-const RecieverDetails: React.FC<RecieverDetailsProps> = ({
-  initialData = {
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-  },
-}) => {
-  const { user, isAnonymous } = useUser();
+const RecieverDetails: React.FC<RecieverDetailsProps> = ({ initialData }) => {
+  const { profile, isAnonymous } = useUser();
   const [mounted, setMounted] = useState(false);
-  const [formData, setFormData] = useState<RecieverFormData>(initialData);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const { transaction_id } = useParams();
+  const { transaction } = usePayment(transaction_id as string);
+  const { updateTransaction, isUpdatingTransaction } = useMutatePayments();
 
   const form = useForm<RecieverFormData>({
     resolver: zodResolver(formSchema),
@@ -61,8 +54,36 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({
     setMounted(true);
   }, []);
 
+  // ~ ======= Submit Form -->
   const handleSubmit = (data: RecieverFormData) => {
-    setFormData(data);
+    console.log(data);
+    updateTransaction({
+      transactionId: transaction_id as string,
+      updateData: {
+        recieverFirstName: data.firstName,
+        recieverLastName: data.lastName,
+        recieverPhone: data.phone,
+        recieverEmail: data.email,
+      },
+    });
+  };
+
+  // ~ ======= hanlde Delivery to me -->
+  const handleDeliveryToMe = () => {
+    form.setValue("firstName", profile?.firstName || "");
+    form.setValue("lastName", profile?.lastName || "");
+    form.setValue("phone", profile?.phone || "");
+    form.setValue("email", profile?.email || "");
+
+    updateTransaction({
+      transactionId: transaction_id as string,
+      updateData: {
+        recieverFirstName: profile?.firstName || "",
+        recieverLastName: profile?.lastName || "",
+        recieverPhone: profile?.phone || "",
+        recieverEmail: profile?.email || "",
+      },
+    });
   };
 
   if (!mounted) {
@@ -80,29 +101,39 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({
             <div className="flex items-center gap-2">
               <span className="text-lg font-semibold">Receiver Details</span>
               <span className="font-medium text-muted-foreground">
-                {formData.firstName} {formData.lastName}
+                {transaction?.recieverFirstName} {transaction?.recieverLastName}
               </span>
             </div>
           </div>
           <div className="text-sm text-muted-foreground">
-            <p>{formData.phone}</p>
-            <p>{formData.email}</p>
+            <p>{transaction?.recieverPhone || "No phone number"}</p>
+            <p>{transaction?.recieverEmail || "No email address"}</p>
           </div>
         </div>
 
         <AccordionTrigger className="h-max">
           <Button variant="ghost" size="sm" className="h-8 px-3">
-            Edit {isAnonymous ? "Guest" : "User"}
+            Edit
           </Button>
         </AccordionTrigger>
       </div>
 
       <AccordionContent className="mt-4">
-        <div className="space-y-3 border-t pt-4">
+        <div className="w-full space-y-3 border-t px-2 pt-4">
+          {!isAnonymous && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-max"
+              onClick={handleDeliveryToMe}
+            >
+              Deliver to me
+            </Button>
+          )}
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
-              className="space-y-4"
+              className="mt-4 space-y-4"
             >
               <div className="grid grid-cols-2 gap-4">
                 <FormField

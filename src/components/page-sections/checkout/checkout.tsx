@@ -57,7 +57,7 @@ const CheckoutComponent: React.FC<ComponentProps> = ({ amount }) => {
     }
   }, [amount, user?.id, transaction_id, queryClient]);
 
-  // ~ ======= Effects ======= ~
+  // ~ ======= Effects ======= ~`
   useEffect(() => {
     createClientSecret();
 
@@ -121,6 +121,7 @@ const CheckoutComponent: React.FC<ComponentProps> = ({ amount }) => {
       )}
       <Button
         type="submit"
+        size="lg"
         className="w-full"
         disabled={!stripe || !elements || loading}
       >

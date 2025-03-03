@@ -14,6 +14,14 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { profiles } from "@/services/db/schema/profiles.schema";
 import { toast } from "sonner";
+import {
+  createAddress as createAddressAction,
+  deleteAddress as deleteAddressAction,
+  updateAddress as updateAddressAction,
+  getAddresses as getAddressesAction,
+} from "@/actions/user.actions";
+import { userAddresses } from "@/services/db/schema/address.schema";
+import { cache_24_hours } from "./cache-info";
 
 // ~ ======= Auth set to hold users & their anonymous status -->
 const subscribers = new Set<
@@ -128,6 +136,14 @@ const useUser = () => {
     enabled: !!user?.id,
   });
 
+  // ~ ======= Get user addresses -->
+  const { data: addresses, isLoading: isAddressesLoading } = useQuery({
+    queryKey: ["user-addresses", user?.id],
+    queryFn: () => getAddressesAction(user?.id ?? ""),
+    enabled: !!user?.id,
+    ...cache_24_hours,
+  });
+
   return {
     isReady,
     user,
@@ -137,6 +153,8 @@ const useUser = () => {
     linkGoogleWithIdentity,
     profile,
     isProfileLoading,
+    addresses,
+    isAddressesLoading,
   };
 };
 
@@ -147,7 +165,9 @@ export default useUser;
 // ~ =============================================>
 export const useMutateUser = () => {
   const queryClient = useQueryClient();
+  const { user } = useUser();
 
+  // ~ ======= Update User Profile  -->
   const { mutate: updateProfile, isPending: isUpdatingProfile } = useMutation({
     mutationFn: (args: {
       userId: string;
@@ -168,5 +188,73 @@ export const useMutateUser = () => {
     },
   });
 
-  return { updateProfile, isUpdatingProfile };
+  // ~ ======= Create user Address  -->
+  const { mutate: createAddress, isPending: isCreatingAddress } = useMutation({
+    mutationFn: async (data: typeof userAddresses.$inferInsert) =>
+      await createAddressAction({ ...data, userId: user?.id }),
+
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["user-addresses", user?.id] });
+      toast.success("Address created successfully");
+    },
+
+    onError: (error) => {
+      appLogger.error({
+        message: "Failed to create address",
+        error,
+      });
+      toast.error("Failed to create address");
+    },
+  });
+
+  // ~ ======= Update user Address  -->
+  const { mutate: updateAddress, isPending: isUpdatingAddress } = useMutation({
+    mutationFn: async (args: {
+      addressId: string;
+      data: Partial<typeof userAddresses.$inferSelect>;
+    }) => await updateAddressAction(args.addressId, args.data),
+
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["user-addresses", data?.id] });
+      toast.success("Address updated successfully");
+    },
+
+    onError: (error) => {
+      appLogger.error({
+        message: "Failed to update address",
+        error,
+      });
+      toast.error("Failed to update address");
+    },
+  });
+
+  // ~ ======= Delete user Address  -->
+  const { mutate: deleteAddress, isPending: isDeletingAddress } = useMutation({
+    mutationFn: async (addressId: string) =>
+      await deleteAddressAction(addressId),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-addresses"] });
+      toast.success("Address deleted successfully");
+    },
+
+    onError: (error) => {
+      appLogger.error({
+        message: "Failed to delete address",
+        error,
+      });
+      toast.error("Failed to delete address");
+    },
+  });
+
+  return {
+    updateProfile,
+    isUpdatingProfile,
+    createAddress,
+    isCreatingAddress,
+    updateAddress,
+    isUpdatingAddress,
+    deleteAddress,
+    isDeletingAddress,
+  };
 };

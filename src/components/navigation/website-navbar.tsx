@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Bookmark,
-  ChevronDown,
   ComputerIcon,
   LogOut,
   MessageSquareText,
@@ -44,6 +43,7 @@ import LogoColorReg from "@/svgs/logo-color-reg.svg";
 import LogoWhiteReg from "@/svgs/logo-white-reg-1.svg";
 import Image from "next/image";
 import SignInDialog from "../dialogs/signin-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const WebsiteNavBar: React.FC = () => {
   const router = useRouter();
@@ -54,7 +54,6 @@ const WebsiteNavBar: React.FC = () => {
   const [showCartSheet, setShowCartSheet] = useState(false);
   const [showWishlistSheet, setShowWishlistSheet] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
   const onWindowScroll = useWindowScroll();
   const [showSigninDialog, setShowSigninDialog] = useState(false);
   const effectThreshold = 20; // Adjust this value to control when the effect is applied
@@ -104,7 +103,7 @@ const WebsiteNavBar: React.FC = () => {
       <div className="flex items-center justify-between space-x-6">
         <Link href="/">
           <motion.div
-            className="text-xl font-bold text-primary dark:text-secondary"
+            className="cursor-pointer text-xl font-bold text-primary dark:text-secondary"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -128,13 +127,21 @@ const WebsiteNavBar: React.FC = () => {
           animate="visible"
           variants={containerVariants}
         >
-          {/* ~ ======= About us page --> */}
           <motion.div variants={navItemVariants}>
             <Link
-              href="/about"
+              href="/store?imageFilter=with-image"
               className="text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"
             >
-              About us
+              Shop
+            </Link>
+          </motion.div>
+
+          <motion.div variants={navItemVariants}>
+            <Link
+              href="/packages"
+              className="text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"
+            >
+              Packages
             </Link>
           </motion.div>
 
@@ -147,13 +154,24 @@ const WebsiteNavBar: React.FC = () => {
               Contact us
             </Link>
           </motion.div>
+
+          {/* ~ ======= About us page --> */}
           <motion.div variants={navItemVariants}>
             <Link
-              href="/packages"
+              href="/about"
               className="text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"
             >
-              Packages
+              About us
             </Link>
+          </motion.div>
+
+          <motion.div variants={navItemVariants}>
+            <p
+              onClick={() => signOut()}
+              className="cursor-pointer text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"
+            >
+              sign out
+            </p>
           </motion.div>
         </motion.div>
       </div>
@@ -198,20 +216,31 @@ const WebsiteNavBar: React.FC = () => {
           <UserCartSheet open={showCartSheet} onOpenChange={setShowCartSheet} />
         </div>
 
+        {/* ~ ======= User dropdown menu --> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className={cn(
-                "bg-transparent shadow-none",
-                scrollY > effectThreshold
-                  ? "border-muted-foreground/50 dark:border-muted-foreground/30"
-                  : "border-border",
-              )}
-            >
-              <User />
-            </Button>
+            {isAnonymous ? (
+              <Button
+                variant="outline"
+                size="icon"
+                className={cn(
+                  "bg-transparent shadow-none",
+                  scrollY > effectThreshold
+                    ? "border-muted-foreground/50 dark:border-muted-foreground/30"
+                    : "border-border",
+                )}
+              >
+                <User />
+              </Button>
+            ) : (
+              <Avatar className="h-8 w-8 cursor-pointer ring-2 ring-primary/50 ring-offset-1 dark:ring-secondary/60 dark:ring-offset-0">
+                <AvatarImage src={profile?.imageUrl as string} alt="Profile" />
+                <AvatarFallback>
+                  {profile?.firstName?.charAt(0)}
+                  {profile?.lastName?.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+            )}
           </DropdownMenuTrigger>
           <DropdownMenuContent
             side="bottom"

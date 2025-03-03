@@ -109,58 +109,68 @@ export const useMutatePayments = () => {
   const { setInitaited } = paymentStore();
 
   // ~ ======= Create Transaction  -->
-  const { mutate: createTransaction } = useMutation({
-    mutationFn: async (args: {
-      transaction: typeof transactions.$inferInsert;
-      transactionItems: (typeof transactionItems.$inferInsert)[];
-    }) => await createNewTransaction(args.transaction, args.transactionItems),
+  const { mutate: createTransaction, isPending: isCreatingTransaction } =
+    useMutation({
+      mutationFn: async (args: {
+        transaction: typeof transactions.$inferInsert;
+        transactionItems: (typeof transactionItems.$inferInsert)[];
+      }) => await createNewTransaction(args.transaction, args.transactionItems),
 
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      setInitaited(true);
-      router.push(`/transactions/${data?.id}/pay`);
-    },
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({ queryKey: ["transactions"] });
+        setInitaited(true);
+        router.push(`/transactions/${data?.id}/check`);
+      },
 
-    onError: (error) => {
-      console.error(error);
-      toast.error("Failed to create transaction");
-    },
-  });
+      onError: (error) => {
+        console.error(error);
+        toast.error("Failed to create transaction");
+      },
+    });
 
   // ~ ======= Delete Transaction  -->
-  const { mutate: deleteTransaction } = useMutation({
-    mutationFn: async (transactionId: string) =>
-      await deleteTransactionAction(transactionId),
+  const { mutate: deleteTransaction, isPending: isDeletingTransaction } =
+    useMutation({
+      mutationFn: async (transactionId: string) =>
+        await deleteTransactionAction(transactionId),
 
-    onSuccess: () => {
-      toast.success("Transaction deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-    },
+      onSuccess: () => {
+        toast.success("Transaction deleted successfully");
+        queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      },
 
-    onError: (error) => {
-      console.error(error);
-      toast.error("Failed to delete transaction");
-    },
-  });
+      onError: (error) => {
+        console.error(error);
+        toast.error("Failed to delete transaction");
+      },
+    });
 
   // ~ ======= Update Transaction  -->
-  const { mutate: updateTransaction } = useMutation({
-    mutationFn: async (args: {
-      transactionId: string;
-      updateData: Partial<typeof transactions.$inferSelect>;
-    }) => await updateTransactionAction(args.transactionId, args.updateData),
+  const { mutate: updateTransaction, isPending: isUpdatingTransaction } =
+    useMutation({
+      mutationFn: async (args: {
+        transactionId: string;
+        updateData: Partial<typeof transactions.$inferSelect>;
+      }) => await updateTransactionAction(args.transactionId, args.updateData),
 
-    onSuccess: (data) => {
-      toast.success("Transaction updated successfully");
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      queryClient.invalidateQueries({ queryKey: ["transaction", data?.id] });
-    },
+      onSuccess: (data) => {
+        toast.success("Transaction updated successfully");
+        queryClient.invalidateQueries({ queryKey: ["transactions"] });
+        queryClient.invalidateQueries({ queryKey: ["transaction", data?.id] });
+      },
 
-    onError: (error) => {
-      console.error(error);
-      toast.error("Failed to update transaction");
-    },
-  });
+      onError: (error) => {
+        console.error(error);
+        toast.error("Failed to update transaction");
+      },
+    });
 
-  return { createTransaction, deleteTransaction, updateTransaction };
+  return {
+    createTransaction,
+    deleteTransaction,
+    updateTransaction,
+    isCreatingTransaction,
+    isDeletingTransaction,
+    isUpdatingTransaction,
+  };
 };

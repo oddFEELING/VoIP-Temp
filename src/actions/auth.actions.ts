@@ -30,6 +30,15 @@ export const signOut = async () => {
 };
 
 // ~ =============================================>
+// ~ ======= Check if user exists  -->
+// ~ =============================================>
+export const checkGoogleAccountExists = async (email: string) => {
+  return await getSingle(
+    db.select().from(profiles).where(eq(profiles.email, email)),
+  );
+};
+
+// ~ =============================================>
 // ~ ======= Sign in with Google  -->
 // ~ =============================================>
 export const signInWithGoogle = async () => {
@@ -84,54 +93,56 @@ export const createUserProfilesFromCallback = async (user: User) => {
 
     if (exists) return exists;
 
-    // Extract and validate required fields
-    const fullName =
-      user.user_metadata.full_name || user.email?.split("@")[0] || "User";
-    const [firstName, ...lastNameParts] = fullName.split(" ");
-    const lastName = lastNameParts.join(" ") || "User";
-    const email = user.email;
+    if (user) {
+      // ~ ======= Get google identitty -->
+      const googleProviders =
+        user.identities &&
+        user.identities.filter((identity) => identity.provider === "google");
 
-    if (!email) {
-      throw new Error("Email is required for profile creation");
-    }
+      if (!googleProviders) {
+        throw new Error("Email is required for profile creation");
+      }
 
-    // Log user data for debugging
-    appLogger.info({
-      message: "Creating profile for user",
-      data: {
+      // ~ ======= Get full name  -->
+      const fullName = googleProviders![0].identity_data?.full_name;
+      const [firstName, lastName] = fullName.split(" ");
+      const email = googleProviders![0].identity_data?.email;
+      const emailVerified = googleProviders![0].identity_data?.email_verified;
+      const imageUrl = googleProviders![0].identity_data?.avatar_url;
+
+      console.log({
         id: user.id,
         firstName,
         lastName,
         email,
-        metadata: user.user_metadata,
-      },
-    });
+        emailVerified,
+        imageUrl: imageUrl ?? generateDiceBearUrl(`${firstName} ${lastName}`),
+      });
 
-    // Create the profile
-    const insertResult = await db
-      .insert(profiles)
-      .values({
-        id: user.id,
-        firstName,
-        lastName,
-        email,
-        imageUrl:
-          user.user_metadata.avatar_url ??
-          generateDiceBearUrl(`${firstName} ${lastName}`),
-      })
-      .returning();
-
-    appLogger.info({ insertResult });
-
-    const profile = insertResult[0];
-
-    if (!profile) {
-      throw new Error(
-        "Profile creation failed - no profile returned from insert",
+      // ~ ======= Create profile -->
+      const newProfile = await getSingle(
+        db
+          .insert(profiles)
+          .values({
+            id: user.id,
+            firstName,
+            lastName,
+            email,
+            emailVerified,
+            imageUrl:
+              imageUrl ?? generateDiceBearUrl(`${firstName} ${lastName}`),
+          })
+          .returning(),
       );
-    }
 
-    return profile;
+      if (!newProfile) {
+        throw new Error(
+          "Profile creation failed - no profile returned from insert",
+        );
+      }
+
+      return newProfile;
+    }
   } catch (error) {
     appLogger.error({
       message: "Profile creation error",

@@ -13,7 +13,9 @@ import { products } from "./product.schema";
 // ~ =============================================>
 export const cartItems = pgTable("cart_items", {
   id: uuid("id").primaryKey().defaultRandom(),
-  productId: uuid("product_id").references(() => products.id),
+  productId: uuid("product_id")
+    .references(() => products.id)
+    .notNull(),
   ownerId: uuid("owner_id").notNull(),
   quantity: integer("quantity").notNull(),
   price: numeric("price").notNull(),

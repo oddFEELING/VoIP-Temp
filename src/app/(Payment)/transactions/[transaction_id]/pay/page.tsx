@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckoutComponent from "@/components/checkout";
+import CheckoutComponent from "@/components/page-sections/checkout/checkout";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import Image from "next/image";
 import { useTheme } from "next-themes";

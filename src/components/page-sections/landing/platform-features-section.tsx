@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React from "react";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -496,7 +496,7 @@ export default function PlatformFeaturesSection() {
                   Connected
                 </span>
                 <br />
-                Stay&nbsp;
+                Feel&nbsp;
                 <span className="text-primary dark:text-secondary">
                   Connected
                 </span>

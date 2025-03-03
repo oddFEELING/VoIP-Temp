@@ -9,7 +9,6 @@ import FeaturesSection from "@/components/page-sections/landing/features-section
 import PlatformFeaturesSection from "@/components/page-sections/landing/platform-features-section";
 import TrustSection from "@/components/page-sections/landing/trsut-section";
 import PackagesCTA from "@/components/page-sections/landing/packages-cta";
-import { GlobeDemo } from "@/components/page-sections/landing/text";
 
 export default function Home() {
   const { user } = useUser();

@@ -29,17 +29,19 @@ export const transactions = pgTable("transactions", {
   paymentIntentClientSecret: text("payment_intent_client_secret").unique(),
   amount: integer("amount").notNull(),
   deliveryAddress: jsonb("delivery_address").$type<{
-    HouseNumber: string;
+    houseNumber: string;
     address: string;
     city: string;
     state: string;
+    country: string;
     postCode: string;
   }>(),
+  itemId: text(),
   status: transactionStatus("payment_status").default("pending"),
-  recieverFirstName: text("reciever_first_name").notNull(),
-  recieverLastName: text("reciever_last_name").notNull(),
-  recieverPhone: text("reciever_phone").notNull(),
-  recieverEmail: text("reciever_email").notNull(),
+  recieverFirstName: text("reciever_first_name"),
+  recieverLastName: text("reciever_last_name"),
+  recieverPhone: text("reciever_phone"),
+  recieverEmail: text("reciever_email"),
   createdAt: timestamp("created_at", { mode: "string" }).defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }).defaultNow(),
 });

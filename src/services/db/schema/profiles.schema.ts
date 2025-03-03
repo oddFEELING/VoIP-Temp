@@ -6,7 +6,7 @@ import {
   text,
   timestamp,
   uuid,
-} from "drizzle-orm/pg-core";
+} from "drizzle-orm/pg-core"; // ~ =============================================>
 
 // ~ =============================================>
 // ~ ======= Tables  -->
@@ -20,6 +20,8 @@ export const profiles = pgTable(
     email: text("email").notNull().unique(),
     isActive: boolean("is_active").notNull().default(true),
     imageUrl: text(),
+    phone: text("phone"),
+    emailVerified: boolean().default(false),
     createdAt: timestamp("created_at", { mode: "string" })
       .notNull()
       .defaultNow(),
