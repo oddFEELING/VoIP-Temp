@@ -62,6 +62,7 @@ const CheckoutAddressPicker: React.FC<CheckoutAddressPickerProps> = ({}) => {
   return (
     <AccordionItem
       value="delivery"
+      data-value="delivery"
       className="my-2 rounded-lg border border-border bg-white p-4 shadow-sm"
     >
       <div className="flex items-start gap-4">

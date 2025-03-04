@@ -23,20 +23,47 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+const formSchema = z.object({
+  password: z.string().min(6),
+  confirmPassword: z.string().min(6),
+});
 
 const SuccessPaymentPage = () => {
   const [intentId] = useQueryState("payment_intent");
-  const { isAnonymous, linkGoogleWithIdentity } = useUser();
+  const {
+    isAnonymous,
+    linkGoogleWithIdentity,
+    updateUserPassword,
+    updateUserEmail,
+  } = useUser();
   const { transaction_id } = useParams();
   const { transaction, isTransactionLoading } = usePayment(
     transaction_id as string,
   );
   const { updateTransaction } = useMutatePayments();
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
   useConfetti();
+
+  // ~ ======= Form instance -->
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
   // ~ ======= Memoized update payment function ======= ~
   const updatePayment = useCallback(async () => {
@@ -57,28 +84,29 @@ const SuccessPaymentPage = () => {
   };
 
   // ~ ======= Handle password submission ======= ~
-  const handlePasswordSubmit = () => {
+  const handlePasswordSubmit = async (formData: z.infer<typeof formSchema>) => {
     // Reset error state
-    setPasswordError("");
+    form.clearErrors();
 
-    // Validate passwords
-    if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+    if (formData.password !== formData.confirmPassword) {
+      form.setError("confirmPassword", { message: "Passwords do not match" });
       return;
     }
 
-    if (password !== confirmPassword) {
-      setPasswordError("Passwords do not match");
+    if (!transaction?.recieverEmail) {
+      toast.error("No reciever email found in transaction");
       return;
     }
 
-    // Here you would implement the logic to save the password
-    // For example, call an API endpoint to create an account with this password
+    try {
+      await updateUserPassword(formData.password);
+      await updateUserEmail(transaction?.recieverEmail ?? "");
+    } catch (error) {
+      console.error(error);
+    }
+
     toast.success("Password set successfully");
     setIsPasswordDialogOpen(false);
-
-    // You might want to call a function similar to handleContinueWithGoogle
-    // but for password-based authentication instead
   };
 
   // ~ ======= Handle continue with Google ======= ~
@@ -92,7 +120,7 @@ const SuccessPaymentPage = () => {
   }, [updatePayment]);
 
   return (
-    <div className="container max-w-lg mx-auto py-10 px-4">
+    <div className="container mx-auto max-w-lg px-4 py-10">
       <div className="flex flex-col items-center justify-center space-y-6 text-center">
         <div className="rounded-full bg-green-100 p-3">
           <CheckCircle2 className="h-8 w-8 text-green-600" />
@@ -114,16 +142,14 @@ const SuccessPaymentPage = () => {
             <div className="flex flex-col space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Amount</span>
-                <span className="font-medium">
-                  ${transaction?.amount}
-                </span>
+                <span className="font-medium">${transaction?.amount}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
                   Transaction ID
                 </span>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs truncate max-w-[120px]">
+                  <span className="max-w-[120px] truncate text-xs">
                     {transaction_id}
                   </span>
                   <Button
@@ -150,10 +176,12 @@ const SuccessPaymentPage = () => {
 
         {isAnonymous && (
           <div className="w-full space-y-4">
-            <div className="text-left space-y-2">
+            <div className="space-y-2 text-left">
               <h2 className="text-lg font-semibold">Create an account</h2>
               <p className="text-sm text-muted-foreground">
-                Create an account to track your payments, view your order history, receive updates on your orders, and manage your subscriptions.
+                Create an account to track your payments, view your order
+                history, receive updates on your orders, and manage your
+                subscriptions.
               </p>
             </div>
 
@@ -219,47 +247,77 @@ const SuccessPaymentPage = () => {
       </div>
 
       {/* ~ ======= Password Dialog ======= ~ */}
-      <Dialog open={isPasswordDialogOpen} onOpenChange={setIsPasswordDialogOpen}>
+      <Dialog
+        open={isPasswordDialogOpen}
+        onOpenChange={setIsPasswordDialogOpen}
+      >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Create Account</DialogTitle>
             <DialogDescription>
-              Set a password to create your account. This will allow you to track your payments, view your order history, and receive updates on your orders.
+              Create an account to track your payments, view your order history
+              and receive updates on your orders.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm your password"
-              />
-            </div>
-            {passwordError && (
-              <p className="text-sm text-red-500">{passwordError}</p>
-            )}
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsPasswordDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handlePasswordSubmit}>
-              Create Account
-            </Button>
-          </DialogFooter>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handlePasswordSubmit)}
+              className="space-y-4"
+            >
+              <div className="grid gap-4 py-4">
+                {/* ~ ======= Password Input --> */}
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor="password">Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          id="password"
+                          type="password"
+                          {...field}
+                          placeholder="Enter your password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* ~ ======= Confirm Password Input --> */}
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor="confirmPassword">
+                        Confirm Password
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          id="confirmPassword"
+                          type="password"
+                          {...field}
+                          placeholder="Confirm your password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsPasswordDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit">Create Account</Button>
+              </DialogFooter>
+            </form>
+          </Form>
         </DialogContent>
       </Dialog>
     </div>

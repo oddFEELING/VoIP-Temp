@@ -56,10 +56,9 @@ const CheckoutPage: React.FC<ComponentProps> = (props: ComponentProps) => {
           {/* ~ ======= Left Column - Checkout Forms ======= ~ */}
           <section className="flex w-full lg:w-2/3">
             <Accordion
-              type="single"
+              type="multiple"
               className="w-full"
-              defaultValue="user"
-              collapsible
+              defaultValue={["user", "delivery"]}
             >
               {(profile || isAnonymous) && (
                 <RecieverDetails

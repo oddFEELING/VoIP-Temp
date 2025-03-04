@@ -129,6 +129,15 @@ const useUser = () => {
     return await linkGoogleIdentity();
   };
 
+  // ~ ======= Update user email -->
+  const updateUserEmail = async (email: string) => {
+    return await supabase.auth.updateUser({ email });
+  };
+
+  const updateUserPassword = async (password: string) => {
+    return await supabase.auth.updateUser({ password });
+  };
+
   // ~ ======= Get user profile -->
   const { data: profile, isLoading: isProfileLoading } = useQuery({
     queryKey: ["user-profile", user?.id],
@@ -155,6 +164,8 @@ const useUser = () => {
     isProfileLoading,
     addresses,
     isAddressesLoading,
+    updateUserEmail,
+    updateUserPassword,
   };
 };
 

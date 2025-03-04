@@ -154,7 +154,7 @@ export const useMutatePayments = () => {
       }) => await updateTransactionAction(args.transactionId, args.updateData),
 
       onSuccess: (data) => {
-        toast.success("Transaction updated successfully");
+        toast.success("Saved.");
         queryClient.invalidateQueries({ queryKey: ["transactions"] });
         queryClient.invalidateQueries({ queryKey: ["transaction", data?.id] });
       },

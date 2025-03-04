@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   AccordionContent,
   AccordionItem,
@@ -22,6 +22,7 @@ import {
 import useUser from "@/hooks/use-user";
 import { useParams } from "next/navigation";
 import usePayment, { useMutatePayments } from "@/hooks/use-payment";
+import { Phone, Mail, User } from "lucide-react";
 
 // Form Schema
 const formSchema = z.object({
@@ -35,14 +36,21 @@ export type RecieverFormData = z.infer<typeof formSchema>;
 
 interface RecieverDetailsProps {
   initialData?: RecieverFormData;
+  onClose?: () => void;
+  onComplete?: () => void;
 }
 
-const RecieverDetails: React.FC<RecieverDetailsProps> = ({ initialData }) => {
+const RecieverDetails: React.FC<RecieverDetailsProps> = ({
+  initialData,
+  onClose,
+  onComplete,
+}) => {
   const { profile, isAnonymous } = useUser();
   const [mounted, setMounted] = useState(false);
   const { transaction_id } = useParams();
   const { transaction } = usePayment(transaction_id as string);
   const { updateTransaction, isUpdatingTransaction } = useMutatePayments();
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const form = useForm<RecieverFormData>({
     resolver: zodResolver(formSchema),
@@ -54,10 +62,42 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({ initialData }) => {
     setMounted(true);
   }, []);
 
+  // ~ ======= Close accordion and open next item -->
+  const closeAccordionAndProceed = () => {
+    // First close this accordion
+    if (onClose) {
+      onClose();
+    } else if (triggerRef.current) {
+      // Manually click the trigger button to close the accordion
+      triggerRef.current.click();
+    }
+
+    // Then open the next accordion (delivery)
+    setTimeout(() => {
+      // Find and click the delivery accordion trigger
+      const deliveryAccordionItem = document.querySelector(
+        '[data-value="delivery"]',
+      );
+      if (deliveryAccordionItem) {
+        const deliveryTrigger = deliveryAccordionItem.querySelector(
+          '[data-state="closed"]',
+        );
+        if (deliveryTrigger) {
+          (deliveryTrigger as HTMLElement).click();
+        }
+      }
+
+      // Also call onComplete if provided
+      if (onComplete) {
+        onComplete();
+      }
+    }, 100); // Small delay to ensure the current accordion has closed
+  };
+
   // ~ ======= Submit Form -->
-  const handleSubmit = (data: RecieverFormData) => {
+  const handleSubmit = async (data: RecieverFormData) => {
     console.log(data);
-    updateTransaction({
+    await updateTransaction({
       transactionId: transaction_id as string,
       updateData: {
         recieverFirstName: data.firstName,
@@ -66,16 +106,19 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({ initialData }) => {
         recieverEmail: data.email,
       },
     });
+
+    // Close this accordion and open the next one
+    closeAccordionAndProceed();
   };
 
   // ~ ======= hanlde Delivery to me -->
-  const handleDeliveryToMe = () => {
+  const handleDeliveryToMe = async () => {
     form.setValue("firstName", profile?.firstName || "");
     form.setValue("lastName", profile?.lastName || "");
     form.setValue("phone", profile?.phone || "");
     form.setValue("email", profile?.email || "");
 
-    updateTransaction({
+    await updateTransaction({
       transactionId: transaction_id as string,
       updateData: {
         recieverFirstName: profile?.firstName || "",
@@ -84,11 +127,20 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({ initialData }) => {
         recieverEmail: profile?.email || "",
       },
     });
+
+    // Close this accordion and open the next one
+    closeAccordionAndProceed();
   };
 
   if (!mounted) {
     return null;
   }
+
+  const hasReceiverDetails =
+    transaction?.recieverFirstName ||
+    transaction?.recieverLastName ||
+    transaction?.recieverPhone ||
+    transaction?.recieverEmail;
 
   return (
     <AccordionItem
@@ -96,22 +148,48 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({ initialData }) => {
       className="my-2 rounded-lg border border-border bg-white p-4 shadow-sm"
     >
       <div className="flex items-start gap-4">
-        <div className="flex w-full flex-col space-y-1.5">
+        <div className="flex w-full flex-col space-y-3">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-lg font-semibold">Receiver Details</span>
-              <span className="font-medium text-muted-foreground">
-                {transaction?.recieverFirstName} {transaction?.recieverLastName}
-              </span>
             </div>
           </div>
-          <div className="text-sm text-muted-foreground">
-            <p>{transaction?.recieverPhone || "No phone number"}</p>
-            <p>{transaction?.recieverEmail || "No email address"}</p>
-          </div>
+
+          {hasReceiverDetails ? (
+            <ul className="space-y-2 text-sm">
+              {(transaction?.recieverFirstName ||
+                transaction?.recieverLastName) && (
+                <li className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-medium">
+                    {transaction?.recieverFirstName}{" "}
+                    {transaction?.recieverLastName}
+                  </span>
+                </li>
+              )}
+
+              {transaction?.recieverPhone && (
+                <li className="flex items-center gap-2">
+                  <Phone className="h-4 w-4 text-muted-foreground" />
+                  <span>{transaction?.recieverPhone}</span>
+                </li>
+              )}
+
+              {transaction?.recieverEmail && (
+                <li className="flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                  <span>{transaction?.recieverEmail}</span>
+                </li>
+              )}
+            </ul>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              No receiver details provided
+            </p>
+          )}
         </div>
 
-        <AccordionTrigger className="h-max">
+        <AccordionTrigger className="h-max" ref={triggerRef}>
           <Button variant="ghost" size="sm" className="h-8 px-3">
             Edit
           </Button>
@@ -204,10 +282,12 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({ initialData }) => {
                 type="submit"
                 className="w-full"
                 disabled={
-                  !form.formState.isValid || form.formState.isSubmitting
+                  !form.formState.isValid ||
+                  form.formState.isSubmitting ||
+                  isUpdatingTransaction
                 }
               >
-                Save Changes
+                {isUpdatingTransaction ? "Saving..." : "Save Changes"}
               </Button>
             </form>
           </Form>
