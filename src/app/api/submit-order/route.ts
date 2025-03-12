@@ -34,6 +34,12 @@ export async function POST(request: NextRequest) {
         },
       });
 
+      // ~ ======= TODO: Remove this in prod -->
+      console.log(
+        "=============================================>\nPlacing order: \n\n",
+      );
+      console.log(simpleOrder);
+
       const response = await axios.post(
         "https://secure.provu.co.uk/prosys/xml.php",
         simpleOrder,
