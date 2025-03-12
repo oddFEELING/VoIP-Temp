@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, Mail, Copy, KeyRound } from "lucide-react";
+import { CheckCircle2, Copy, KeyRound } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import useConfetti from "@/hooks/use-confetti";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { useQueryState } from "nuqs";
 import usePayment, { useMutatePayments } from "@/hooks/use-payment";
-import { useEffect, useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -22,7 +22,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -72,6 +71,10 @@ const SuccessPaymentPage = () => {
     updateTransaction({
       transactionId: transaction_id as string,
       updateData: { status: "succeeded" },
+    });
+
+    await axios.post("/api/emails/purchase-success", {
+      transaction_id,
     });
   }, [transaction_id, updateTransaction]);
 

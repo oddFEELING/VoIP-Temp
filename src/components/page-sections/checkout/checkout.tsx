@@ -12,7 +12,6 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import useUser from "@/hooks/use-user";
-import { useQueryState } from "nuqs";
 import { useParams } from "next/navigation";
 import { convertSubCurrencyToCurrency } from "@/lib/utils";
 import { useProductMutations } from "@/hooks/use-products";
@@ -57,7 +56,7 @@ const CheckoutComponent: React.FC<ComponentProps> = ({ amount }) => {
     }
   }, [amount, user?.id, transaction_id, queryClient]);
 
-  // ~ ======= Effects ======= ~`
+  // ~ ======= Effects ======= ~
   useEffect(() => {
     createClientSecret();
 
@@ -79,7 +78,6 @@ const CheckoutComponent: React.FC<ComponentProps> = ({ amount }) => {
 
     try {
       await elements.submit();
-      clearCart();
       const { error } = await stripe.confirmPayment({
         elements,
         clientSecret: clientSecret as string,
@@ -91,6 +89,12 @@ const CheckoutComponent: React.FC<ComponentProps> = ({ amount }) => {
       if (error) {
         setErrorMessage(error.message || "An error occurred");
         toast.error(error.message || "Payment failed. Please try again.");
+      } else {
+        await axios.post("/api/submit-order", {
+          transaction_id,
+        });
+
+        clearCart();
       }
     } catch (error) {
       setErrorMessage("An unexpected error occurred");

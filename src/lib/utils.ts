@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { js2xml } from "xml-js";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -104,4 +105,12 @@ export const convertToSubCurrency = (amount: number, factor = 100) => {
  */
 export const convertSubCurrencyToCurrency = (amount: number): number => {
   return amount / 100;
+};
+
+export const simpleOrderCreator = (args: OrderCreatorType) => {
+  return js2xml(args, {
+    compact: true,
+    ignoreComment: true,
+    spaces: 4,
+  });
 };

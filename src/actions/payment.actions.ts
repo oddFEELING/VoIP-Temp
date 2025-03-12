@@ -1,4 +1,5 @@
 "use server";
+
 import {
   transactionItems,
   transactions,
@@ -105,26 +106,25 @@ export const getTransactionsAndItems = async (userId: string) => {
   // ~ ======= Get transactions with their items and product data in a single query -->
   const result = await db
     .select({
+      // Transaction fields
       id: transactions.id,
       status: transactions.status,
       amount: transactions.amount,
       createdAt: transactions.createdAt,
       intentId: transactions.intentId,
       ownerId: transactions.ownerId,
-      items: {
-        id: transactionItems.id,
-        quantity: transactionItems.quantity,
-        product: {
-          id: products.id,
-          name: products.descriptionShort as unknown as string,
-          imageUrl: products.imageUrl,
-          price: products.priceEach as unknown as string,
-          item: products.item,
-          category: products.category as unknown as string,
-          class: products.class,
-          subclass: products.subclass as unknown as string,
-        },
-      },
+      // Item fields
+      itemId: transactionItems.id,
+      itemQuantity: transactionItems.quantity,
+      // Product fields
+      productId: products.id,
+      productName: products.descriptionShort,
+      productImageUrl: products.imageUrl,
+      productPrice: products.priceEach,
+      productItem: products.item,
+      productCategory: products.category,
+      productClass: products.class,
+      productSubclass: products.subclass,
     })
     .from(transactions)
     .leftJoin(
@@ -137,27 +137,147 @@ export const getTransactionsAndItems = async (userId: string) => {
   // ~ ======= Group transactions with their items -->
   const groupedTransactions = result.reduce<
     Record<string, TransactionWithItems>
-  >((acc, row: any) => {
+  >((acc, row) => {
     if (!acc[row.id]) {
       acc[row.id] = {
         id: row.id,
-        status: row.status,
-        amount: row.amount,
-        createdAt: row.createdAt,
-        intentId: row.intentId,
-        ownerId: row.ownerId,
+        status: row.status as string,
+        amount: row.amount as number,
+        createdAt: row.createdAt as string,
+        intentId: row.intentId as string | null,
+        ownerId: row.ownerId as string,
         items: [],
       };
     }
-    if (row.items?.id) {
-      acc[row.id].items.push({
-        id: row.items.id,
-        quantity: row.items.quantity,
-        product: row.items.product,
-      });
+    // Only add item if it exists (left join might return nulls)
+    if (row.itemId) {
+      // Check if this item is already added to avoid duplicates
+      const existingItemIndex = acc[row.id].items.findIndex(
+        (item) => item.id === row.itemId,
+      );
+
+      if (existingItemIndex === -1) {
+        acc[row.id].items.push({
+          id: row.itemId,
+          quantity: row.itemQuantity as number,
+          product: {
+            id: row.productId as string,
+            name: row.productName as string,
+            imageUrl: row.productImageUrl as string,
+            price: row.productPrice as string,
+            item: row.productItem as string,
+            category: row.productCategory as string,
+            class: row.productClass as string,
+            subclass: row.productSubclass as string,
+          },
+        });
+      }
     }
     return acc;
   }, {});
 
   return Object.values(groupedTransactions);
+};
+
+// ~ =============================================>
+// ~ ======= transactions and items by id   -->
+// ~ =============================================>
+export const getTransactionsAndItemsById = async (transactionId: string) => {
+  // ~ ======= Get transaction with its items and product data in a single query -->
+  const results = await db
+    .select({
+      // Transaction fields
+      id: transactions.id,
+      status: transactions.status,
+      amount: transactions.amount,
+      createdAt: transactions.createdAt,
+      intentId: transactions.intentId,
+      ownerId: transactions.ownerId,
+      recieverEmail: transactions.recieverEmail,
+      recieverFirstName: transactions.recieverFirstName,
+      recieverLastName: transactions.recieverLastName,
+      recieverPhone: transactions.recieverPhone,
+      deliveryAddress: transactions.deliveryAddress,
+      // Item fields
+      itemId: transactionItems.id,
+      itemQuantity: transactionItems.quantity,
+      // Product fields
+      productId: products.id,
+      productName: products.descriptionShort,
+      productImageUrl: products.imageUrl,
+      productPrice: products.priceEach,
+      productItem: products.item,
+      productCategory: products.category,
+      productClass: products.class,
+      productSubclass: products.subclass,
+    })
+    .from(transactions)
+    .leftJoin(
+      transactionItems,
+      eq(transactions.id, transactionItems.transactionId),
+    )
+    .leftJoin(products, eq(transactionItems.itemId, products.id))
+    .where(eq(transactions.id, transactionId));
+
+  if (!results || results.length === 0) {
+    return null;
+  }
+
+  // ~ ======= Build the transaction object with all items -->
+  const firstRow = results[0];
+  const transaction = {
+    id: firstRow.id,
+    status: firstRow.status,
+    amount: firstRow.amount,
+    createdAt: firstRow.createdAt,
+    intentId: firstRow.intentId,
+    ownerId: firstRow.ownerId,
+    recieverDetails: {
+      email: firstRow.recieverEmail,
+      firstName: firstRow.recieverFirstName,
+      lastName: firstRow.recieverLastName,
+      phone: firstRow.recieverPhone,
+      deliveryAddress: firstRow.deliveryAddress,
+    },
+    items: [] as {
+      id: string;
+      quantity: number;
+      product: {
+        id: string;
+        name: string | null;
+        imageUrl: string;
+        price: string | null;
+        item: string;
+        category: string | null;
+        class: string;
+        subclass: string | null;
+      };
+    }[],
+  };
+
+  // ~ ======= Process all transaction items while avoiding duplicates -->
+  const processedItemIds = new Set<string>();
+
+  for (const result of results) {
+    if (result.itemId && !processedItemIds.has(result.itemId)) {
+      processedItemIds.add(result.itemId);
+
+      transaction.items.push({
+        id: result.itemId,
+        quantity: result.itemQuantity as number,
+        product: {
+          id: result.productId as string,
+          name: result.productName,
+          imageUrl: result.productImageUrl as string,
+          price: result.productPrice,
+          item: result.productItem as string,
+          category: result.productCategory,
+          class: result.productClass as string,
+          subclass: result.productSubclass,
+        },
+      });
+    }
+  }
+
+  return transaction;
 };
