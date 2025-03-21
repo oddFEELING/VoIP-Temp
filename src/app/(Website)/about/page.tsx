@@ -24,6 +24,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import AboutImg1 from "@/assets/images/about-img-1.jpg";
+import AboutImg2 from "@/assets/images/about-img-2.jpg";
 
 // ~ ======= Animation variants ======= ~
 const containerVariants = {
@@ -277,9 +279,47 @@ const AboutPage = () => {
 
           {/* ~ ======= Right Column - Image Card ======= ~ */}
           <motion.div variants={contentVariants}>
-            <Card className="relative aspect-[4/3] w-full overflow-hidden border-none bg-muted/30 shadow-lg">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5" />
-            </Card>
+            <div className="relative flex h-[500px] flex-col gap-4 md:flex-row">
+              {/* ~ ======= First Image - VoIP Phone ======= ~ */}
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  type: "spring",
+                  damping: 20,
+                  stiffness: 100,
+                  duration: 0.6,
+                  delay: 0.1,
+                }}
+                className="hidden w-full md:block md:w-1/2 md:self-start"
+              >
+                <Card className="relative aspect-[4/5] w-full overflow-hidden border-none bg-muted/30 shadow-lg ring-2 ring-accent">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10" />
+                  <Image src={AboutImg1} alt="" fill className="object-cover" />
+                </Card>
+              </motion.div>
+
+              {/* ~ ======= Second Image - Support Team ======= ~ */}
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  type: "spring",
+                  damping: 20,
+                  stiffness: 100,
+                  duration: 0.6,
+                  delay: 0.3,
+                }}
+                className="w-full md:mt-12 md:w-1/2 md:self-end"
+              >
+                <Card className="relative aspect-[4/5] w-full overflow-hidden border-none bg-muted/30 shadow-lg ring-2 ring-secondary">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10" />
+                  <Image src={AboutImg2} alt="" fill className="object-cover" />
+                </Card>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </motion.section>

@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import WelcomeImage from "@/assets/images/welcome-img.jpg";
+import Image from "next/image";
 
 const WelcomeSection = () => {
   return (
@@ -16,7 +18,14 @@ const WelcomeSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <div className="aspect-square w-full rounded-lg bg-muted"></div>
+          <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted ring-2 ring-secondary ring-offset-2 dark:ring-offset-0">
+            <Image
+              src={WelcomeImage}
+              alt="Welcome"
+              fill
+              className="object-cover"
+            />
+          </div>
         </motion.div>
 
         {/* ~ ======= Right Column - Content ======= ~ */}
