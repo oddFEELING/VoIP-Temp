@@ -39,6 +39,23 @@ export const checkGoogleAccountExists = async (email: string) => {
 };
 
 // ~ =============================================>
+// ~ ======= Sign in with email  -->
+// ~ =============================================>
+export const signInWithEmail = async (email: string, password: string) => {
+  const client = new Supabase().ssr_client();
+  const { data, error } = await client.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    appLogger.error(error);
+    return null;
+  }
+
+  return data;
+};
+// ~ =============================================>
 // ~ ======= Sign in with Google  -->
 // ~ =============================================>
 export const signInWithGoogle = async () => {
@@ -80,6 +97,24 @@ export const linkGoogleIdentity = async () => {
   if (data.url) {
     redirect(data.url);
   }
+};
+
+// ~ =============================================>
+// ~ ======= Link email identity   -->
+// ~ =============================================>
+export const linkEmailIdentity = async (email: string, password: string) => {
+  const client = new Supabase().ssr_client();
+  const { data, error } = await client.auth.updateUser({
+    email,
+    password,
+  });
+
+  if (error) {
+    appLogger.error(error);
+    return null;
+  }
+
+  return data;
 };
 
 // ~ =============================================>

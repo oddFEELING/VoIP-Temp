@@ -39,7 +39,7 @@ const CheckoutPaymentMethod = () => {
     return (
       <AccordionItem
         value="payment"
-        className="my-2 rounded-lg border border-border bg-white/50 p-4 shadow-sm"
+        className="my-2 rounded-lg border border-border bg-white/20 p-4 shadow-sm ring-1 ring-rose-500 dark:ring-rose-400"
       >
         <div className="flex items-start gap-4">
           <div className="flex w-full flex-col space-y-1.5">
@@ -73,7 +73,7 @@ const CheckoutPaymentMethod = () => {
   return (
     <AccordionItem
       value="payment"
-      className="my-2 rounded-lg border border-border bg-white p-4 shadow-sm"
+      className="my-2 rounded-lg border border-border bg-muted p-4 shadow-sm"
     >
       <div className="flex items-start gap-4">
         <div className="flex w-full flex-col space-y-1.5">

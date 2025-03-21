@@ -4,7 +4,7 @@ import { CheckCircle2, Copy, KeyRound } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import useConfetti from "@/hooks/use-confetti";
-import useUser from "@/hooks/use-user";
+import useUser, { useMutateUser } from "@/hooks/use-user";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { useQueryState } from "nuqs";
@@ -33,6 +33,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { generateDiceBearUrl, convertSubCurrencyToCurrency } from "@/lib/utils";
+import { getCurrentUser, linkEmailIdentity } from "@/actions/auth.actions";
+import useProducts, { useProductMutations } from "@/hooks/use-products";
 
 const formSchema = z.object({
   password: z.string().min(6),
@@ -46,14 +49,21 @@ const SuccessPaymentPage = () => {
     linkGoogleWithIdentity,
     updateUserPassword,
     updateUserEmail,
+    linkEmailIdentity,
   } = useUser();
+  const { createUserProfile } = useMutateUser();
   const { transaction_id } = useParams();
   const { transaction, isTransactionLoading } = usePayment(
     transaction_id as string,
   );
   const { updateTransaction } = useMutatePayments();
+  const { clearCart } = useProductMutations();
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
   useConfetti();
+
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
 
   // ~ ======= Form instance -->
   const form = useForm<z.infer<typeof formSchema>>({
@@ -104,6 +114,19 @@ const SuccessPaymentPage = () => {
     try {
       await updateUserPassword(formData.password);
       await updateUserEmail(transaction?.recieverEmail ?? "");
+
+      await linkEmailIdentity(
+        transaction?.recieverEmail ?? "",
+        formData.password,
+      );
+      const user = await getCurrentUser();
+      createUserProfile({
+        id: user?.id ?? "",
+        email: transaction?.recieverEmail ?? "",
+        firstName: transaction?.recieverFirstName ?? "",
+        lastName: transaction?.recieverLastName ?? "",
+        imageUrl: generateDiceBearUrl(transaction?.recieverEmail ?? ""),
+      });
     } catch (error) {
       console.error(error);
     }
@@ -145,7 +168,9 @@ const SuccessPaymentPage = () => {
             <div className="flex flex-col space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Amount</span>
-                <span className="font-medium">${transaction?.amount}</span>
+                <span className="font-medium">
+                  £{convertSubCurrencyToCurrency(transaction?.amount)}
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">
@@ -243,7 +268,7 @@ const SuccessPaymentPage = () => {
 
         <Link
           href="/"
-          className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+          className="text-sm font-medium text-primary underline-offset-4 hover:underline dark:text-secondary"
         >
           Return to Home
         </Link>

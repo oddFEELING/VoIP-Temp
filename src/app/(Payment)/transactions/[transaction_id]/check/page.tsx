@@ -58,7 +58,7 @@ const CheckoutPage: React.FC<ComponentProps> = (props: ComponentProps) => {
             <Accordion
               type="multiple"
               className="w-full"
-              defaultValue={["user", "delivery"]}
+              defaultValue={["user", "delivery", "payment"]}
             >
               {(profile || isAnonymous) && (
                 <RecieverDetails
@@ -82,7 +82,7 @@ const CheckoutPage: React.FC<ComponentProps> = (props: ComponentProps) => {
           {/* ~ ======= Right Column - Order Summary ======= ~ */}
           <section className="w-full lg:w-1/3">
             <div className="relative lg:h-[calc(100vh-8rem)]">
-              <div className="sticky top-8 rounded-lg border border-border bg-white p-6 shadow-sm">
+              <div className="sticky top-8 rounded-lg border border-border bg-muted p-6 shadow-sm">
                 <h2 className="text-xl font-semibold">Order Summary</h2>
                 <div className="mt-6 space-y-4">
                   <div className="flex justify-between border-b pb-4">

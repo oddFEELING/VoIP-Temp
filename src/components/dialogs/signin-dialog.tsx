@@ -116,7 +116,7 @@ const SignInDialog = ({
   const [isSignUp, setIsSignUp] = useState(false);
   const [step, setStep] = useState<"initial" | "details">("initial");
   const supabase = createClient();
-  const { linkGoogleWithIdentity, googleSignIn } = useUser();
+  const { linkGoogleWithIdentity } = useUser();
 
   // ~ ======= Form setup with validation =======  ~
   const emailForm = useForm<z.infer<typeof emailSchema>>({
@@ -222,7 +222,7 @@ const SignInDialog = ({
   const handleGoogleSignin = async () => {
     try {
       setIsLoading(true);
-      await googleSignIn();
+      await linkGoogleWithIdentity();
     } catch (error: any) {
       toast.error(error.message || "Failed to sign in with Google");
     } finally {
@@ -373,6 +373,7 @@ const SignInDialog = ({
                   </>
                 ) : (
                   /* ~ ======= Details Form ======= ~ */
+                  // @ts-ignore
                   <Form {...(isSignUp ? signUpForm : signInForm)}>
                     <form
                       onSubmit={
@@ -409,6 +410,7 @@ const SignInDialog = ({
                         />
                       )}
                       <FormField
+                        // @ts-ignore
                         control={
                           isSignUp ? signUpForm.control : signInForm.control
                         }

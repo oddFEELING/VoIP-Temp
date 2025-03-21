@@ -8,7 +8,9 @@ import { useRouter } from "next/navigation";
 import {
   getUserProfile,
   linkGoogleIdentity,
+  linkEmailIdentity as linkEmailIdentityAction,
   signInWithGoogle,
+  signInWithEmail as signInWithEmailAction,
   updateUserProfile,
 } from "@/actions/auth.actions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -19,6 +21,7 @@ import {
   deleteAddress as deleteAddressAction,
   updateAddress as updateAddressAction,
   getAddresses as getAddressesAction,
+  createUserProfile as createUserProfileAction,
 } from "@/actions/user.actions";
 import { userAddresses } from "@/services/db/schema/address.schema";
 import { cache_24_hours } from "./cache-info";
@@ -119,6 +122,16 @@ const useUser = () => {
     }
   };
 
+  // ~ ======= Sign in with email -->
+  const signInWithEmail = async (email: string, password: string) => {
+    return await signInWithEmailAction(email, password);
+  };
+
+  // ~ ======= Link email identity -->
+  const linkEmailIdentity = async (email: string, password: string) => {
+    return await linkEmailIdentityAction(email, password);
+  };
+
   // ~ ======= Google sign in -->
   const googleSignIn = async () => {
     return await signInWithGoogle();
@@ -166,6 +179,8 @@ const useUser = () => {
     isAddressesLoading,
     updateUserEmail,
     updateUserPassword,
+    signInWithEmail,
+    linkEmailIdentity,
   };
 };
 
@@ -177,6 +192,26 @@ export default useUser;
 export const useMutateUser = () => {
   const queryClient = useQueryClient();
   const { user } = useUser();
+
+  // ~ ======= Create user profile  -->
+  const { mutate: createUserProfile, isPending: isCreatingUserProfile } =
+    useMutation({
+      mutationFn: async (user: typeof profiles.$inferInsert) =>
+        await createUserProfileAction(user),
+
+      onSuccess: (data) => {
+        queryClient.invalidateQueries({ queryKey: ["user-profile", data?.id] });
+        toast.success("Profile created successfully");
+      },
+
+      onError: (error) => {
+        appLogger.error({
+          message: "Failed to create profile",
+          error,
+        });
+        toast.error("Failed to create profile");
+      },
+    });
 
   // ~ ======= Update User Profile  -->
   const { mutate: updateProfile, isPending: isUpdatingProfile } = useMutation({
@@ -267,5 +302,7 @@ export const useMutateUser = () => {
     isUpdatingAddress,
     deleteAddress,
     isDeletingAddress,
+    createUserProfile,
+    isCreatingUserProfile,
   };
 };

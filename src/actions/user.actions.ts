@@ -4,6 +4,14 @@ import { getSingle } from "@/lib/utils";
 import db from "@/services/db";
 import { userAddresses } from "@/services/db/schema/address.schema";
 import { eq } from "drizzle-orm";
+import { profiles } from "@/services/db/schema/profiles.schema";
+// ~ =============================================>
+// ~ ======= Create user profile  -->
+// ~ =============================================>
+export const createUserProfile = async (user: typeof profiles.$inferInsert) => {
+  return await getSingle(db.insert(profiles).values(user).returning());
+};
+
 // ~ =============================================>
 // ~ ======= Create Address  -->
 // ~ =============================================>

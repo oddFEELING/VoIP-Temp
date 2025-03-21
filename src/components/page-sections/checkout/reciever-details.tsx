@@ -145,7 +145,7 @@ const RecieverDetails: React.FC<RecieverDetailsProps> = ({
   return (
     <AccordionItem
       value="user"
-      className="my-2 rounded-lg border border-border bg-white p-4 shadow-sm"
+      className="my-2 rounded-lg border border-border bg-muted p-4 shadow-sm"
     >
       <div className="flex items-start gap-4">
         <div className="flex w-full flex-col space-y-3">
