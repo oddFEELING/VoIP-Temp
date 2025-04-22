@@ -36,11 +36,10 @@ const TrustSection = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              Build your communication on trust with our enterprise-grade VoIP
-              systems. We've earned the confidence of businesses worldwide
-              through bank-grade encryption and unwavering security. From
-              startups to enterprises &mdash; your communications are protected
-              by our proven track record of excellence.
+              Your business deserves a VoIP system built on trust, security and
+              performance. With bank grade encryption, SOC 2 type II
+              certification and a 99.99% uptime guarantee we ensure your calls,
+              data and communications remain protected and uninterrupted.
             </motion.p>
             {/* ~ ======= Two Column Features ======= ~ */}
             <motion.div
@@ -52,9 +51,9 @@ const TrustSection = () => {
             >
               <div className="space-y-2">
                 <p className="text-base/7 text-muted-foreground">
-                  SOC 2 Type II certified, 99.99% uptime guaranteed, and
-                  end-to-end encrypted. Your communication infrastructure built
-                  on security you can trust.
+                  Stay connected with confidence and peace of mind. Build your
+                  communication on a foundation of proven security, reliability
+                  and excellence.
                 </p>
               </div>
             </motion.div>
@@ -81,7 +80,7 @@ const TrustSection = () => {
               <img
                 alt=""
                 src="https://images.unsplash.com/photo-1670272502246-768d249768ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1152&q=80"
-                className="aspect-7/5 w-[37rem] max-w-none rounded-2xl bg-gray-50 object-cover ring-4 ring-primary/50 ring-offset-2 dark:ring-primary/40 dark:ring-offset-1"
+                className="aspect-7/5 w-[37rem] max-w-none rounded-2xl bg-gray-50 object-cover ring-4 ring-primary ring-offset-2 dark:ring-primary/40 dark:ring-offset-1"
               />
               <div className="absolute inset-0 z-10 bg-gradient-to-br from-primary/10 to-secondary/10" />
             </div>
@@ -98,7 +97,7 @@ const TrustSection = () => {
                 <img
                   alt=""
                   src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1152&h=842&q=80"
-                  className="aspect-7/5 w-[37rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover ring-4 ring-primary/50 ring-offset-2 dark:ring-primary/40 dark:ring-offset-1"
+                  className="aspect-7/5 w-[37rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover ring-4 ring-primary ring-offset-2 dark:ring-primary/40 dark:ring-offset-1"
                 />
                 <div className="absolute inset-0 z-10 bg-gradient-to-bl from-primary/10 to-secondary/10" />
               </div>

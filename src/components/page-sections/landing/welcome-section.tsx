@@ -64,13 +64,11 @@ const WelcomeSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            Experience the transformative power of next-generation communication
-            with our enterprise-grade VoIP solutions. Here at LinkOrgVoip, we
-            deliver state-of-the-art Voice over Internet Protocol services,
-            meticulously engineered to elevate businesses of every scale. From
-            ambitious solo entrepreneurs to dynamic corporate contact centers
-            and sophisticated maritime operations &mdash; we&apos;re committed
-            to empowering your success with seamless, reliable connectivity.
+            Clear, reliable communication is the backbone of any successful
+            business, whether you’re a solo entrepreneur handling client calls,
+            a growing team needing efficient internal collaboration or a large
+            enterprise managing high volume customer support, seamless
+            connectivity is crucial.
           </motion.p>
 
           {/* ~ ======= Two Column Features ======= ~ */}
@@ -84,9 +82,10 @@ const WelcomeSection = () => {
             <div className="space-y-2">
               <h3 className="text-xl font-medium">Reliable & Secure</h3>
               <p className="text-sm text-muted-foreground">
-                Experience enterprise-grade reliability with our 99.99% uptime
-                guarantee and advanced security protocols. Your communications
-                are always protected and available when you need them most.
+                At LinkOrgVoIP, we understand the challenges businesses face and
+                that&apos;s why we are committed to eliminate these frustrations
+                with our enterprise-grade VOIP solutions designed to provide a
+                cost-effective, high quality and scalable communication system.
               </p>
             </div>
             <div className="space-y-2">

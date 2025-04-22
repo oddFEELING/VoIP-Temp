@@ -11,21 +11,21 @@ import { GridPattern } from "@/components/magicui/grid-pattern";
 /* ~ =================================== ~ */
 const features = [
   {
-    title: "Yealink: Innovation Meets Affordability",
+    title: "Yealink: Where Innovation meets Affordability ",
     description:
-      "Yealink offers cutting-edge VoIP solutions that are budget-friendly.",
+      "Get Yealink’s cutting-edge VoIP technology designed to enhance communications and scale your business without stretching your budget. ",
     icon: Box,
   },
   {
-    title: "Cisco: Trusted Performance for Businesses",
+    title: "Cisco: Trusted performance for businesses.",
     description:
-      "Cisco provides robust VoIP systems for enterprise-level communication.",
+      "Experience the confidence of a trusted global leader in business communication. Cisco’s industry leading VoIP solutions are built for reliability, security and seamless communication. ",
     icon: Box,
   },
   {
     title: "Fanvil: Versatile Solutions for Every Need",
     description:
-      "Fanvil delivers flexible VoIP hardware suitable for various environments.",
+      "No matter your industry or business size, Fanvil delivers feature rich, reliable and cost-effective VoIP solutions tailored to your needs.",
     icon: Box,
   },
 ];
@@ -100,11 +100,12 @@ export default function FeaturesSection() {
             </motion.div>
             <motion.div variants={itemVariants}>
               <p className="text-muted-foreground">
-                Our VoIP hardware selection features industry-leading brands
-                known for their reliability and performance. Each product is
-                designed to enhance your communication experience, ensuring
-                seamless connectivity. Explore our range to find the perfect
-                solution for your needs.
+                Our carefully selected hardware from industry leading providers
+                ensures seamless connectivity, crystal clear communication and
+                long-term reliability. Whether you&apos;re scaling your
+                operations or optimizing your current setup, we provide the
+                tools to keep your team connected and your business running
+                smoothly.
               </p>
             </motion.div>
           </div>

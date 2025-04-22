@@ -144,16 +144,15 @@ export const HeroSection = () => {
             >
               LinkOrg Networks
             </motion.span>
-            <h1 className="leading-wide text-3xl font-bold tracking-normal sm:text-5xl">
-              Innovative&nbsp;
-              <span className="text-primary dark:text-secondary">
-                VoIP Solutions
-              </span>
-              &nbsp;for Your Business
+            <h1 className="leading-wide text-3xl font-bold tracking-normal text-primary dark:text-secondary sm:text-5xl">
+              Empower your business with reliable and innovative VoIP solutions
             </h1>
-            <p className="max-w-lg text-lg text-muted-foreground">
-              LinkOrg provides advanced VoIP services for businesses. Discover
-              our tailored products and packages.
+            <p className="max-w-lg text-muted-foreground">
+              LinkorgVoip provides advanced &apos;Voice over Internet
+              Protocol&apos;(VoIP) services to help you make and receive calls
+              even in the most remote locations. <br />
+              Stay connected, boost collaboration, and save costs - all with
+              unmatched reliability and support.
             </p>
           </div>
 
@@ -249,7 +248,7 @@ export const HeroSection = () => {
               <motion.div
                 variants={bottomLeftVariants}
                 className={cn(
-                  "group relative h-[300px] w-full overflow-hidden rounded-lg border border-border shadow-lg ring-4 ring-primary/50 ring-offset-2 dark:ring-primary/40 dark:ring-offset-1",
+                  "group relative h-[300px] w-full overflow-hidden rounded-lg border border-border shadow-lg ring-4 ring-primary ring-offset-2 dark:ring-primary dark:ring-offset-1",
                   placeholderColors[1],
                 )}
               >
@@ -269,7 +268,7 @@ export const HeroSection = () => {
               <motion.div
                 variants={topRightVariants}
                 className={cn(
-                  "group relative h-[350px] w-full overflow-hidden rounded-lg border border-border shadow-lg ring-4 ring-primary/50 ring-offset-2 dark:ring-primary/40 dark:ring-offset-1",
+                  "group relative h-[350px] w-full overflow-hidden rounded-lg border border-border shadow-lg ring-4 ring-primary ring-offset-2 dark:ring-primary dark:ring-offset-1",
                   placeholderColors[3],
                 )}
               >
@@ -285,7 +284,7 @@ export const HeroSection = () => {
               <motion.div
                 variants={bottomRightVariants}
                 className={cn(
-                  "group relative h-[250px] w-full overflow-hidden rounded-lg border border-border shadow-2xl ring-4 ring-secondary/70 ring-offset-2 dark:ring-accent dark:ring-offset-0",
+                  "group relative h-[250px] w-full overflow-hidden rounded-lg border border-border shadow-2xl ring-4 ring-secondary ring-offset-2 dark:ring-accent dark:ring-offset-0",
                   placeholderColors[4],
                 )}
               >

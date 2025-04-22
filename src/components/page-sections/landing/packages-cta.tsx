@@ -24,16 +24,13 @@ const PackagesCTA = () => {
           </motion.p>
           {/* ~ ======= Title ======= ~ */}
           <motion.h2
-            className="leading-wider mt-2 text-4xl font-bold tracking-tight sm:text-5xl"
+            className="leading-wider mt-2 border-none text-4xl font-bold tracking-tight text-primary dark:text-secondary sm:text-5xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            The Perfect Package <br />{" "}
-            <span className="text-primary dark:text-secondary">
-              for Your Business.
-            </span>
+            The Perfect Package <br /> for Your Business.
           </motion.h2>
 
           {/* ~ ======= Description ======= ~ */}

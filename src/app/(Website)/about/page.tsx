@@ -363,10 +363,13 @@ const AboutPage = () => {
               </div>
               <h3 className="text-2xl font-bold">Customer Satisfaction</h3>
               <p className="text-muted-foreground">
-                We are committed to maintaining the highest standards of
-                integrity and honesty in all our operations. This builds trust
-                with our clients, partners, and employees, ensuring long-term
-                relationships and a solid reputation in the market.
+                At LinkorgVoIP, your trust is our priority. We uphold the
+                highest standards of integrity, transparency and reliability,
+                ensuring every interaction is built on honesty and respect. Our
+                commitment to excellence fosters strong, long-term relationships
+                with our clients, partners and employees – delivering not just
+                exceptional VoIP solutions, but a service experience you can
+                rely on.
               </p>
               <div className="mt-auto flex gap-4">
                 <Button variant="outline">Shop</Button>
@@ -384,13 +387,13 @@ const AboutPage = () => {
               icon: SmilePlus,
               title: "Integrity & Honesty",
               content:
-                "We uphold the highest standards of integrity in all operations, building lasting trust with clients and partners.",
+                "We uphold the highest standards of integrity in every interaction, ensuring that our clients and partners can depend on us for honest communication, fair solutions and long-term success.",
             },
             {
               icon: Sparkles,
               title: "Continuous Learning and Development",
               content:
-                "We invest in continuous learning and skill development, keeping our team at the forefront of technology to deliver the best solutions.",
+                "We continuously invest in learning and skill development, ensuring our team stays ahead of industry advancements. By staying at the forefront of technology, we deliver cutting edge VoIP solutions that keep your business connected, efficient and positioned for growth.",
             },
           ].map((item, index) => (
             <motion.div key={index} variants={contentVariants}>

@@ -7,7 +7,7 @@ import { BackgroundGradients } from "@/components/ui/background-gradients";
 import WelcomeSection from "@/components/page-sections/landing/welcome-section";
 import FeaturesSection from "@/components/page-sections/landing/features-section";
 import PlatformFeaturesSection from "@/components/page-sections/landing/platform-features-section";
-import TrustSection from "@/components/page-sections/landing/trsut-section";
+import TrustSection from "@/components/page-sections/landing/trust-section";
 import PackagesCTA from "@/components/page-sections/landing/packages-cta";
 
 export default function Home() {
@@ -17,12 +17,12 @@ export default function Home() {
     <div className="flex min-h-screen w-full flex-col">
       <BackgroundGradients />
       <HeroSection />
+      <PackagesCTA />
       <HeroParallax products={products} />
       <WelcomeSection />
       <FeaturesSection />
       <TrustSection />
       <PlatformFeaturesSection />
-      <PackagesCTA />
     </div>
   );
 }
