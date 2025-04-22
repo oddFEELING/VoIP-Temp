@@ -4,6 +4,9 @@ import axios from "axios";
 import { getGraphToken } from "@/services/ms-graph";
 import { generateEmailHtml } from "@/components/email-templates/purchase-success";
 
+// ~ ======= Configure route as server-side only ======= ~
+export const dynamic = 'force-dynamic';
+
 // ~ ======= Send purchase success email -->
 export async function POST(request: NextRequest) {
   const { transaction_id } = await request.json();

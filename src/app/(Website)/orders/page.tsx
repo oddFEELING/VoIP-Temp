@@ -685,7 +685,7 @@ const OrdersPage = () => {
                 <Calendar className="h-10 w-10 text-muted-foreground" />
                 <h3 className="text-base font-semibold">No orders found</h3>
                 <p className="text-sm text-muted-foreground">
-                  We couldn't find any orders matching your criteria.
+                  We couldn&apos;t find any orders matching your criteria.
                 </p>
               </CardContent>
             </Card>

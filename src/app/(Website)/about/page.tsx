@@ -458,7 +458,9 @@ const AboutPage = () => {
         {/* ~ ======= Still have questions? ======= ~ */}
         <div className="mt-12">
           <h3 className="mb-2 text-lg font-semibold">Still have questions?</h3>
-          <p className="mb-4 text-muted-foreground">We're here to help you!</p>
+          <p className="mb-4 text-muted-foreground">
+            We&apos;re here to help you!
+          </p>
           <Button variant="outline" onClick={() => router.push("/contact")}>
             Contact
           </Button>

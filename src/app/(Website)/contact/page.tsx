@@ -170,8 +170,8 @@ const ContactUsPage = () => {
             <span className="text-primary dark:text-secondary">Touch</span>
           </h1>
           <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
-            We're here to assist you with any questions or queries you may have.
-            Choose your preferred way to connect with our support team.
+            We&apos;re here to assist you with any questions or queries you may
+            have. Choose your preferred way to connect with our support team.
           </p>
         </motion.div>
 
@@ -234,9 +234,9 @@ const ContactUsPage = () => {
                   </span>
                 </h2>
                 <p className="mt-4 text-muted-foreground">
-                  Whether you're looking to enhance your business communications
-                  or need technical support, our team is here to guide you
-                  through every step.
+                  Whether you&apos;re looking to enhance your business
+                  communications or need technical support, our team is here to
+                  guide you through every step.
                 </p>
               </div>
 
@@ -291,8 +291,8 @@ const ContactUsPage = () => {
               <div>
                 <h3 className="text-xl font-semibold">Send us a Message</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Fill out the form below and we'll get back to you within 24
-                  hours.
+                  Fill out the form below and we&apos;ll get back to you within
+                  24 hours.
                 </p>
               </div>
 

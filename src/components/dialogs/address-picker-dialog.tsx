@@ -67,11 +67,12 @@ const slideAnimation = {
 
 // ~ ======= Types and Schema ======= ~
 const addressFormSchema = z.object({
-  HouseNumber: z.string().min(1, "House number is required"),
+  houseNumber: z.string().min(1, "House number is required"),
   address: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().min(1, "State is required"),
   postCode: z.string().min(1, "Post code is required"),
+  country: z.string(),
 });
 
 type ComponentProps = {
@@ -110,11 +111,12 @@ const AddressPickerDialog: React.FC<ComponentProps> = ({
   const form = useForm<z.infer<typeof addressFormSchema>>({
     resolver: zodResolver(addressFormSchema),
     defaultValues: {
-      HouseNumber: "",
+      houseNumber: "",
       address: "",
       city: "",
       state: "",
       postCode: "",
+      country: "United Kingdom",
     },
   });
 
@@ -173,7 +175,7 @@ const AddressPickerDialog: React.FC<ComponentProps> = ({
                           </div>
                           <div className="flex-1 space-y-1">
                             <p className="font-medium leading-none">
-                              {transaction.deliveryAddress.HouseNumber}{" "}
+                              {transaction.deliveryAddress.houseNumber}{" "}
                               {transaction.deliveryAddress.address}
                             </p>
                             <p className="text-sm text-muted-foreground">
@@ -354,7 +356,7 @@ const AddressPickerDialog: React.FC<ComponentProps> = ({
                 {/* ~ ======= House Number  --> */}
                 <FormField
                   control={form.control}
-                  name="HouseNumber"
+                  name="houseNumber"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>House Number</FormLabel>
