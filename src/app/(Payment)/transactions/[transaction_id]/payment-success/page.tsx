@@ -169,10 +169,9 @@ const SuccessPaymentPage = () => {
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Amount</span>
                 <span className="font-medium">
-                  £
-                  {convertSubCurrencyToCurrency(
-                    transaction ? transaction?.amount : 0,
-                  )}
+                  {/* £{convertSubCurrencyToCurrency(transaction?.amount)} */}
+                  £{convertSubCurrencyToCurrency(transaction?.amount ?? 0)}
+
                 </span>
               </div>
               <div className="flex items-center justify-between">
