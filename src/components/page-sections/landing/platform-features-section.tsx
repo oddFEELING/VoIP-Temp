@@ -489,17 +489,11 @@ export default function PlatformFeaturesSection() {
               </motion.p>
               <motion.h2
                 variants={itemVariants}
-                className="mt-2 text-4xl font-bold tracking-normal text-foreground sm:text-5xl"
+                className="mt-2 text-4xl font-bold tracking-normal text-primary dark:text-secondary sm:text-5xl"
               >
-                Get{" "}
-                <span className="text-primary dark:text-secondary">
-                  Connected
-                </span>
+                Get Connected
                 <br />
-                Feel&nbsp;
-                <span className="text-primary dark:text-secondary">
-                  Connected
-                </span>
+                Feel Connected
               </motion.h2>
               <motion.p
                 variants={itemVariants}

@@ -28,9 +28,8 @@ const PackagesPage: React.FC = () => {
           <p className="text-sm font-medium text-secondary dark:text-accent">
             Explore
           </p>
-          <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
-            VoIP Service{" "}
-            <span className="text-primary dark:text-secondary">Packages</span>
+          <h1 className="text-3xl font-bold tracking-tight text-primary dark:text-secondary sm:text-5xl">
+            VoIP Service Packages
           </h1>
           <p className="max-w-2xl text-lg text-muted-foreground">
             Discover our range of VoIP packages tailored to meet your

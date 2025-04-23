@@ -186,10 +186,8 @@ const AboutPage = () => {
           <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-secondary dark:text-accent">
             About Us
           </span>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
-            Empowering{" "}
-            <span className="text-primary dark:text-secondary">VoIP</span>{" "}
-            Solutions
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-primary dark:text-secondary sm:text-5xl">
+            Empowering VoIP Solutions
           </h1>
           <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
             LinkOrg specializes in cutting-edge VoIP technology, delivering
@@ -240,11 +238,8 @@ const AboutPage = () => {
                 Our most important
               </p>
               {/* ~ ======= Title --> */}
-              <h2 className="text-3xl font-bold">
-                Commitment to{" "}
-                <span className="text-primary dark:text-secondary">
-                  Your Excellence
-                </span>
+              <h2 className="text-3xl font-bold text-primary dark:text-secondary">
+                Commitment to Your Excellence
               </h2>
             </div>
             <p className="text-lg text-muted-foreground">
@@ -339,11 +334,8 @@ const AboutPage = () => {
           <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-secondary dark:text-accent">
             Tagline
           </span>
-          <h2 className="border-b-0 text-3xl font-bold sm:text-4xl">
-            Our{" "}
-            <span className="text-primary dark:text-secondary">
-              Core Values
-            </span>
+          <h2 className="border-b-0 text-3xl font-bold text-primary dark:text-secondary sm:text-4xl">
+            Our Core Values
           </h2>
           <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
             At LinkOrg, our values shape everything we do. They guide our
@@ -430,7 +422,9 @@ const AboutPage = () => {
       >
         {/* ~ ======= FAQ Header ======= ~ */}
         <div className="mb-6">
-          <h2 className="text-2xl font-bold">FAQs</h2>
+          <h2 className="text-2xl font-bold text-primary dark:text-secondary">
+            FAQs
+          </h2>
           <p className="mt-2 text-muted-foreground">
             Find answers to common questions about our VoIP services and how we
             can help you.

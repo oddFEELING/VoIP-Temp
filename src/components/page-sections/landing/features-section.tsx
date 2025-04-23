@@ -89,12 +89,9 @@ export default function FeaturesSection() {
           </motion.p>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <motion.div variants={itemVariants}>
-              <h2 className="border-b-0 text-4xl font-bold text-foreground sm:text-5xl">
-                Discover Top&nbsp;
+              <h2 className="border-b-0 text-4xl font-bold text-primary dark:text-secondary sm:text-5xl">
+                Discover Top&nbsp; Hardware Providers
                 <br />
-                <span className="text-primary dark:text-secondary">
-                  Hardware Providers
-                </span>
                 &nbsp;
               </h2>
             </motion.div>

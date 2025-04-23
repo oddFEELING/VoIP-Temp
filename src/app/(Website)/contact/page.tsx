@@ -165,9 +165,8 @@ const ContactUsPage = () => {
           <span className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-secondary dark:text-accent">
             Contact Us
           </span>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl">
-            Get in{" "}
-            <span className="text-primary dark:text-secondary">Touch</span>
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-primary dark:text-secondary sm:text-5xl">
+            Get in Touch
           </h1>
           <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
             We&apos;re here to assist you with any questions or queries you may
@@ -227,11 +226,8 @@ const ContactUsPage = () => {
                 <p className="mb-4 inline-block text-sm font-semibold uppercase tracking-wider text-secondary dark:text-accent">
                   We are
                 </p>
-                <h2 className="text-3xl font-bold tracking-tight">
-                  Ready to Transform Your{" "}
-                  <span className="text-primary dark:text-secondary">
-                    Communication?
-                  </span>
+                <h2 className="text-3xl font-bold tracking-tight text-primary dark:text-secondary">
+                  Ready to Transform Your Communication?
                 </h2>
                 <p className="mt-4 text-muted-foreground">
                   Whether you&apos;re looking to enhance your business

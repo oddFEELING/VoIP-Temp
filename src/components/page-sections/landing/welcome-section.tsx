@@ -43,17 +43,13 @@ const WelcomeSection = () => {
 
           {/* ~ ======= Main Heading ======= ~ */}
           <motion.h2
-            className="leading-wider text-4xl font-bold tracking-normal"
+            className="leading-wider text-4xl font-bold tracking-normal text-primary dark:text-secondary"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            Discover Our{" "}
-            <span className="text-primary dark:text-secondary">
-              Comprehensive VoIP
-            </span>{" "}
-            Solutions Today
+            Discover Our Comprehensive VoIP Solutions Today
           </motion.h2>
 
           {/* ~ ======= Description ======= ~ */}

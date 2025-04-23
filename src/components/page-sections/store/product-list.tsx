@@ -298,9 +298,8 @@ const ProductList = () => {
         variants={contentVariants}
         className="mb-8 space-y-4 text-center"
       >
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
-          VoIP{" "}
-          <span className="text-primary dark:text-secondary">Products</span>
+        <h1 className="text-4xl font-bold tracking-tight text-primary dark:text-secondary md:text-5xl">
+          VoIP Products
         </h1>
         <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">
           Discover our comprehensive range of VoIP solutions, from
