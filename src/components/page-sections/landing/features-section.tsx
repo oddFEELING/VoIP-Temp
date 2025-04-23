@@ -93,7 +93,7 @@ export default function FeaturesSection() {
                 Discover Top&nbsp;
                 <br />
                 <span className="text-primary dark:text-secondary">
-                  VoIP Hardware Brands
+                  Hardware Providers
                 </span>
                 &nbsp;
               </h2>

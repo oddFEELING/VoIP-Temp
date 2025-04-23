@@ -23,11 +23,8 @@ const TrustSection = () => {
             >
               Trust & Security
             </motion.p>
-            <h2 className="mt-2 text-4xl font-bold tracking-tight">
-              Systems that you <br />
-              <span className="text-primary dark:text-secondary">
-                Can Trust
-              </span>
+            <h2 className="mt-2 text-4xl font-bold tracking-tight text-primary dark:text-secondary">
+              Secure and reliable systems you can trust
             </h2>
             <motion.p
               className="mt-3 text-base text-foreground/90"
