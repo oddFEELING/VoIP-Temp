@@ -59,7 +59,7 @@ const itemVariants = {
 /* ~ =================================== ~ */
 export default function FeaturesSection() {
   return (
-    <section className="relative">
+    <section className="relative px-6 lg:px-8">
       {/* ~ ======= Background Pattern ======= ~ */}
       <div className="absolute inset-0 -z-10 h-full w-full">
         <GridPattern
