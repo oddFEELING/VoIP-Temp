@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import {
   Bookmark,
   ComputerIcon,
+  Info,
   LogOut,
   MessageSquareText,
   Moon,
@@ -165,14 +166,14 @@ const WebsiteNavBar: React.FC = () => {
             </Link>
           </motion.div>
 
-          <motion.div variants={navItemVariants}>
-            <p
-              onClick={() => signOut()}
-              className="cursor-pointer text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"
-            >
-              sign out
-            </p>
-          </motion.div>
+          {/*<motion.div variants={navItemVariants}>*/}
+          {/*  <p*/}
+          {/*    onClick={() => signOut()}*/}
+          {/*    className="cursor-pointer text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"*/}
+          {/*  >*/}
+          {/*    sign out*/}
+          {/*  </p>*/}
+          {/*</motion.div>*/}
         </motion.div>
       </div>
 
@@ -290,6 +291,14 @@ const WebsiteNavBar: React.FC = () => {
                   <span>Sign in</span>
                 </DropdownMenuItem>
               )}
+
+              <DropdownMenuItem
+                className="gap-3 px-2 py-1.5"
+                onClick={() => router.push("/about")}
+              >
+                <Info size={16} strokeWidth={1.5} />
+                <span>About</span>
+              </DropdownMenuItem>
 
               <DropdownMenuItem
                 className="gap-3 px-2 py-1.5"
