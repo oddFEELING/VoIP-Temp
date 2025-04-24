@@ -57,6 +57,7 @@ const WebsiteNavBar: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const onWindowScroll = useWindowScroll();
   const [showSigninDialog, setShowSigninDialog] = useState(false);
+
   const effectThreshold = 20; // Adjust this value to control when the effect is applied
 
   // ~ ======= Set mounted state when component mounts ======= ~
@@ -111,10 +112,12 @@ const WebsiteNavBar: React.FC = () => {
           >
             {mounted ? (
               <Image
-                src={theme === "light" ? LogoColorReg : LogoWhiteReg}
+                // src={theme === "light" ? LogoColorReg : LogoWhiteReg}
                 alt="Logo"
-                width={120}
-                height={150}
+                src="/logos/voip-logo-white-bg.png"
+                width={70}
+                priority={true}
+                height={100}
               />
             ) : (
               // ~ ======= Placeholder while theme loads ======= ~

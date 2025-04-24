@@ -142,7 +142,7 @@ export const HeroSection = () => {
               variants={contentVariants}
               className="-mt-5 inline-block text-sm font-semibold uppercase tracking-wider text-secondary dark:text-accent"
             >
-              LinkOrg Networks
+              LinkOrg VoIP
             </motion.span>
             <h1 className="leading-wide text-3xl font-bold tracking-normal text-primary dark:text-secondary sm:text-5xl">
               Empower your business with reliable and innovative VoIP solutions

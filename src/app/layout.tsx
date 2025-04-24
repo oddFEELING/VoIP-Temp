@@ -17,7 +17,7 @@ const Montserrat = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "VoIP | LinkOrg Networks",
+  title: "VoIP | LinkOrg VoIP",
   description: "LinkOrgNet VoIP Solutions",
 };
 
@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${MuseoSlab.variable} ${Montserrat.variable} font-montserrat`}
       >
         <ErrorBoundary>
-          <AppLayout attribute="class" defaultTheme="system" enableSystem>
+          <AppLayout attribute="class" defaultTheme="light" enableSystem>
             {children}
           </AppLayout>
         </ErrorBoundary>
