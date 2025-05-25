@@ -97,20 +97,18 @@ const CheckoutPage: React.FC<ComponentProps> = (props: ComponentProps) => {
                     <span className="text-muted-foreground">Subtotal</span>
                     <span>
                       £
-                      {userCart?.reduce(
-                        (acc, item) => acc + Number(item.price),
-                        0,
-                      )}
+                      {userCart
+                        ?.reduce((acc, item) => acc + Number(item.price), 0)
+                        .toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between pt-4">
                     <span className="text-lg font-semibold">Total</span>
                     <span className="text-lg font-semibold">
                       £
-                      {userCart?.reduce(
-                        (acc, item) => acc + Number(item.price),
-                        0,
-                      )}
+                      {userCart
+                        ?.reduce((acc, item) => acc + Number(item.price), 0)
+                        .toFixed(2)}
                     </span>
                   </div>
                   <div className="flex w-full flex-col">
