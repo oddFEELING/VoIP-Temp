@@ -35,6 +35,13 @@ import {
 import { useMutateMessage } from "@/hooks/use-message";
 import useUser from "@/hooks/use-user";
 import { toast } from "sonner";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { useRouter } from "next/navigation";
 
 // ~ ======= Animation variants ======= ~
 const containerVariants = {
@@ -54,6 +61,20 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.5,
+    },
+  },
+};
+
+const contentVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      duration: 0.6,
+      stiffness: 100,
+      damping: 15,
     },
   },
 };
@@ -104,6 +125,7 @@ const formSchema = z.object({
 // ~ =============================================>
 const ContactUsPage = () => {
   const { sendMessage, isCreatingMessage } = useMutateMessage();
+  const router = useRouter();
   const { user } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -136,6 +158,82 @@ const ContactUsPage = () => {
       });
     }
   };
+
+  const faqs = [
+    {
+      question: "What is VoIP?",
+      answer:
+        "Voice over Internet Protocol is a convenient, affordable means for businesses and individuals to use the internet to conduct telephone calls, and represents a more cost-effective alternative to traditional PSTN.",
+    },
+    {
+      question: "What is PBXware?",
+      answer:
+        "Incorporating a range of traditional telephony and modern VoIP technologies, PBXware is a scalable solution that enables enhanced management of business telecommunications. From routing and voicemail, to auto attendants and conferencing, PBXware can offer advanced features in a single package, saving you money on multiple systems.",
+    },
+    {
+      question: "How do I set up VoIP?",
+      answer:
+        "You need Broadband internet connection. The more call volume you have the higher the bandwidth you will need. We have low call volume and are using a 7Mbps/700Kbps connection, this has been plenty of bandwidth for us. Wired Ethernet router. You have a ton of options here but your budget will likely decide this one.",
+    },
+    {
+      question: "How secure is VoIP?",
+      answer:
+        "Security for VoIP uses industry standard encryption technology such as SSL and VPN.",
+    },
+    {
+      question: "Can I use VoIP with a regular(analogue) telephone?",
+      answer:
+        "To connect VoIP phones to traditional telephony networks, you need to install an Analog Telephone Adapter (ATA) which converts the analog signal into digital data.",
+    },
+    {
+      question: "Does VoIP work on dial-up?",
+      answer:
+        "A dial-up connection can support VoIP, but it is recommended to use broadband since certain codecs require higher bandwidths for quality purposes.",
+    },
+    {
+      question:
+        "What are the benefits of using LinkOrg Networks' VoIP solutions over traditional phone lines?",
+      answer:
+        "Our VoIP solutions offer greater flexibility, lower costs, and advanced features like call forwarding, video conferencing, and multi-device integration. It's an efficient alternative to traditional phone systems.",
+    },
+    {
+      question:
+        "Can your VoIP services be integrated with our existing IT infrastructure?",
+      answer:
+        "Yes, our VoIP solutions are designed to seamlessly integrate with your existing IT and network infrastructure, minimizing disruptions during deployment.",
+    },
+    {
+      question: "How scalable are your VoIP systems for growing businesses?",
+      answer:
+        "Our VoIP systems are highly scalable, allowing you to easily add new users, extensions, and features as your business expands.",
+    },
+    {
+      question: "Do you offer call encryption for secure voice communication?",
+      answer:
+        "Yes, all VoIP communications are encrypted end-to-end to ensure your voice communications remain private and secure from unauthorized access.",
+    },
+    {
+      question:
+        "Are your VoIP solutions suitable for remote workers or teams across multiple locations?",
+      answer:
+        "Yes, our VoIP solutions are perfect for remote teams and businesses with multiple locations. We provide seamless communication across all locations, no matter where your team is.",
+    },
+    {
+      question: "What is DID?",
+      answer:
+        "A Direct Inward Dialing (DID) is a telephone number that is used to make and receive calls directly through a VoIP system. It allows businesses to have a single number that can be used to receive calls from anywhere, regardless of the location of the caller.",
+    },
+    {
+      question: "What are SIP phones?",
+      answer:
+        "SIP phones are devices that allow you to make and receive VoIP calls using a traditional phone system. They are designed to work with VoIP systems and can be used to make and receive calls from anywhere with an internet connection.",
+    },
+    {
+      question: "What is Business SIP Trunking?",
+      answer:
+        "Business SIP trunking is a service that enables your company to operate a selection of telecommunications systems over your IP network, and offers a number of benefits. From cheaper international call costs to improved business flexibility, a Disaster Recovery strategy to give access to an increased quantity of numbers, business SIP trunking from LinkOrg can enhance the way your business stays connected.",
+    },
+  ];
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-center bg-background px-4 md:px-8">
@@ -404,92 +502,137 @@ const ContactUsPage = () => {
       {/* ####################################### */}
       {/* -- Map Section -- */}
       {/* ####################################### */}
-      <motion.section
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="container mx-auto w-full max-w-7xl py-24"
-      >
-        <motion.div variants={itemVariants} className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight">
-            Visit Our Office
+      {/*<motion.section*/}
+      {/*  initial="hidden"*/}
+      {/*  animate="visible"*/}
+      {/*  variants={containerVariants}*/}
+      {/*  className="container mx-auto w-full max-w-7xl py-24"*/}
+      {/*>*/}
+      {/*  <motion.div variants={itemVariants} className="mb-12 text-center">*/}
+      {/*    <h2 className="text-3xl font-bold tracking-tight">*/}
+      {/*      Visit Our Office*/}
+      {/*    </h2>*/}
+      {/*    <p className="mt-4 text-muted-foreground">*/}
+      {/*      Come visit our office in Nottingham, UK*/}
+      {/*    </p>*/}
+      {/*  </motion.div>*/}
+
+      {/*  <div className="grid gap-8 lg:grid-cols-[1fr_400px]">*/}
+      {/*    /!* ~ ======= Map Container ======= ~ *!/*/}
+      {/*    <motion.div*/}
+      {/*      variants={itemVariants}*/}
+      {/*      className="relative h-[400px] w-full overflow-hidden rounded-lg border border-border shadow-sm"*/}
+      {/*    >*/}
+      {/*      <iframe*/}
+      {/*        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2403.2033794605413!2d-1.1263677874754954!3d52.962755672064446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4879c15d781bb26f%3A0x84876c5727284456!2s50%20Sargent%20Gardens%2C%20Nottingham%20NG3%202HU!5e0!3m2!1sen!2suk!4v1739741907216!5m2!1sen!2suk"*/}
+      {/*        width="100%"*/}
+      {/*        height="100%"*/}
+      {/*        style={{ border: 0 }}*/}
+      {/*        allowFullScreen*/}
+      {/*        loading="lazy"*/}
+      {/*        referrerPolicy="no-referrer-when-downgrade"*/}
+      {/*        className="absolute inset-0"*/}
+      {/*      />*/}
+      {/*    </motion.div>*/}
+
+      {/*    /!* ~ ======= Address Card ======= ~ *!/*/}
+      {/*    <motion.div variants={itemVariants}>*/}
+      {/*      <Card className="h-full p-6">*/}
+      {/*        <div className="flex h-full flex-col gap-6">*/}
+      {/*          <div>*/}
+      {/*            <h3 className="text-xl font-semibold">Our Address</h3>*/}
+      {/*            <p className="mt-2 text-muted-foreground">*/}
+      {/*              50 Sargent Gardens,*/}
+      {/*              <br />*/}
+      {/*              Nottingham,*/}
+      {/*              <br />*/}
+      {/*              NG3 2HU,*/}
+      {/*              <br />*/}
+      {/*              United Kingdom*/}
+      {/*            </p>*/}
+      {/*          </div>*/}
+
+      {/*          <div>*/}
+      {/*            <h4 className="font-medium">Business Hours</h4>*/}
+      {/*            <div className="mt-2 space-y-2 text-sm text-muted-foreground">*/}
+      {/*              <div className="flex justify-between">*/}
+      {/*                <span>Monday - Friday</span>*/}
+      {/*                <span>9:00 AM - 6:00 PM</span>*/}
+      {/*              </div>*/}
+      {/*              <div className="flex justify-between">*/}
+      {/*                <span>Saturday</span>*/}
+      {/*                <span>10:00 AM - 4:00 PM</span>*/}
+      {/*              </div>*/}
+      {/*              <div className="flex justify-between">*/}
+      {/*                <span>Sunday</span>*/}
+      {/*                <span>Closed</span>*/}
+      {/*              </div>*/}
+      {/*            </div>*/}
+      {/*          </div>*/}
+
+      {/*          <Button*/}
+      {/*            variant="outline"*/}
+      {/*            className="mt-auto"*/}
+      {/*            onClick={() =>*/}
+      {/*              window.open(*/}
+      {/*                "https://goo.gl/maps/QZ5Z5Z5Z5Z5Z5Z5Z5",*/}
+      {/*                "_blank",*/}
+      {/*              )*/}
+      {/*            }*/}
+      {/*          >*/}
+      {/*            <MapPin className="mr-2 h-4 w-4" />*/}
+      {/*            Get Directions*/}
+      {/*          </Button>*/}
+      {/*        </div>*/}
+      {/*      </Card>*/}
+      {/*    </motion.div>*/}
+      {/*  </div>*/}
+      {/*</motion.section>*/}
+
+      {/* ~ =================================== ~ */}
+      {/* -- FAQ Section -- */}
+      {/* ~ =================================== ~ */}
+      <section className="container mx-auto w-full max-w-7xl py-24">
+        {/* ~ ======= FAQ Header ======= ~ */}
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-primary dark:text-secondary">
+            FAQs
           </h2>
-          <p className="mt-4 text-muted-foreground">
-            Come visit our office in Nottingham, UK
+          <p className="mt-2 text-muted-foreground">
+            Find answers to common questions about our VoIP services and how we
+            can help you.
           </p>
-        </motion.div>
-
-        <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
-          {/* ~ ======= Map Container ======= ~ */}
-          <motion.div
-            variants={itemVariants}
-            className="relative h-[400px] w-full overflow-hidden rounded-lg border border-border shadow-sm"
-          >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2403.2033794605413!2d-1.1263677874754954!3d52.962755672064446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4879c15d781bb26f%3A0x84876c5727284456!2s50%20Sargent%20Gardens%2C%20Nottingham%20NG3%202HU!5e0!3m2!1sen!2suk!4v1739741907216!5m2!1sen!2suk"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0"
-            />
-          </motion.div>
-
-          {/* ~ ======= Address Card ======= ~ */}
-          <motion.div variants={itemVariants}>
-            <Card className="h-full p-6">
-              <div className="flex h-full flex-col gap-6">
-                <div>
-                  <h3 className="text-xl font-semibold">Our Address</h3>
-                  <p className="mt-2 text-muted-foreground">
-                    50 Sargent Gardens,
-                    <br />
-                    Nottingham,
-                    <br />
-                    NG3 2HU,
-                    <br />
-                    United Kingdom
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-medium">Business Hours</h4>
-                  <div className="mt-2 space-y-2 text-sm text-muted-foreground">
-                    <div className="flex justify-between">
-                      <span>Monday - Friday</span>
-                      <span>9:00 AM - 6:00 PM</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Saturday</span>
-                      <span>10:00 AM - 4:00 PM</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Sunday</span>
-                      <span>Closed</span>
-                    </div>
-                  </div>
-                </div>
-
-                <Button
-                  variant="outline"
-                  className="mt-auto"
-                  onClick={() =>
-                    window.open(
-                      "https://goo.gl/maps/QZ5Z5Z5Z5Z5Z5Z5Z5",
-                      "_blank",
-                    )
-                  }
-                >
-                  <MapPin className="mr-2 h-4 w-4" />
-                  Get Directions
-                </Button>
-              </div>
-            </Card>
-          </motion.div>
         </div>
-      </motion.section>
+
+        {/* ~ ======= FAQ List ======= ~ */}
+        <Accordion type="single" collapsible className="w-full">
+          {faqs.map((faq, index) => (
+            <AccordionItem
+              key={index}
+              value={`item-${index}`}
+              className={`border-t ${index === faqs.length - 1 ? "border-b" : ""}`}
+            >
+              <AccordionTrigger className="py-6 text-base font-normal hover:no-underline">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="pb-6 text-muted-foreground">
+                {faq.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+
+        {/* ~ ======= Still have questions? ======= ~ */}
+        <div className="mt-12">
+          <h3 className="mb-2 text-lg font-semibold">Still have questions?</h3>
+          <p className="mb-4 text-muted-foreground">
+            We&apos;re here to help you!
+          </p>
+          <Button variant="outline" onClick={() => router.push("/contact")}>
+            Contact
+          </Button>
+        </div>
+      </section>
     </div>
   );
 };

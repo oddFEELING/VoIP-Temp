@@ -18,7 +18,7 @@ export default function Home() {
       <BackgroundGradients />
       <HeroSection />
       <PackagesCTA />
-      <HeroParallax products={products} />
+      {/*<HeroParallax products={products} />*/}
       <WelcomeSection />
       <FeaturesSection />
       <TrustSection />

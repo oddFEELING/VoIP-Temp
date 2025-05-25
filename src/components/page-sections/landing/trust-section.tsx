@@ -76,7 +76,7 @@ const TrustSection = () => {
             <div className="relative w-0 flex-auto lg:ml-auto lg:w-auto lg:flex-none lg:self-end">
               <img
                 alt=""
-                src="https://images.unsplash.com/photo-1670272502246-768d249768ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1152&q=80"
+                src="/images/systems-trust-1.png"
                 className="aspect-7/5 w-[37rem] max-w-none rounded-2xl bg-gray-50 object-cover ring-4 ring-primary ring-offset-2 dark:ring-primary/40 dark:ring-offset-1"
               />
               <div className="absolute inset-0 z-10 bg-gradient-to-br from-primary/10 to-secondary/10" />
@@ -85,7 +85,7 @@ const TrustSection = () => {
               <div className="relative order-first flex w-64 flex-none justify-end self-end lg:w-auto">
                 <img
                   alt=""
-                  src="https://images.unsplash.com/photo-1605656816944-971cd5c1407f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&h=604&q=80"
+                  src="/images/systems-trust-4.png"
                   className="aspect-4/3 w-[24rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover ring-2 ring-secondary ring-offset-2 dark:ring-accent dark:ring-offset-0"
                 />
                 <div className="absolute inset-0 z-10 bg-gradient-to-tr from-primary/10 to-secondary/10" />
@@ -93,7 +93,7 @@ const TrustSection = () => {
               <div className="relative flex w-96 flex-auto justify-end lg:w-auto lg:flex-none">
                 <img
                   alt=""
-                  src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1152&h=842&q=80"
+                  src="/images/systems-trust-3.png"
                   className="aspect-7/5 w-[37rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover ring-4 ring-primary ring-offset-2 dark:ring-primary/40 dark:ring-offset-1"
                 />
                 <div className="absolute inset-0 z-10 bg-gradient-to-bl from-primary/10 to-secondary/10" />
@@ -101,7 +101,7 @@ const TrustSection = () => {
               <div className="relative hidden sm:block sm:w-0 sm:flex-auto lg:w-auto lg:flex-none">
                 <img
                   alt=""
-                  src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&h=604&q=80"
+                  src="/images/systems-trust-2.png"
                   className="aspect-4/3 w-[24rem] max-w-none rounded-2xl bg-gray-50 object-cover ring-2 ring-secondary ring-offset-2 dark:ring-accent dark:ring-offset-0"
                 />
                 <div className="absolute inset-0 z-10 bg-gradient-to-tl from-primary/10 to-secondary/10" />

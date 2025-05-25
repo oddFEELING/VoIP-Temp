@@ -129,7 +129,7 @@ export const createUserProfilesFromCallback = async (user: User) => {
     if (exists) return exists;
 
     if (user) {
-      // ~ ======= Get google identitty -->
+      // ~ ======= Get google identity -->
       const googleProviders =
         user.identities &&
         user.identities.filter((identity) => identity.provider === "google");

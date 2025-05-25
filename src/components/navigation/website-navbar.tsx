@@ -160,14 +160,14 @@ const WebsiteNavBar: React.FC = () => {
           </motion.div>
 
           {/* ~ ======= About us page --> */}
-          <motion.div variants={navItemVariants}>
-            <Link
-              href="/about"
-              className="text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"
-            >
-              About us
-            </Link>
-          </motion.div>
+          {/*<motion.div variants={navItemVariants}>*/}
+          {/*  <Link*/}
+          {/*    href="/about"*/}
+          {/*    className="text-muted-foreground hover:text-primary dark:hover:text-accent-foreground"*/}
+          {/*  >*/}
+          {/*    About us*/}
+          {/*  </Link>*/}
+          {/*</motion.div>*/}
 
           {/*<motion.div variants={navItemVariants}>*/}
           {/*  <p*/}
