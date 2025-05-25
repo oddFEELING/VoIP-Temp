@@ -27,7 +27,6 @@ const navigation = {
     { name: "System Status", href: "#" },
   ],
   company: [
-    { name: "About", href: "/about" },
     { name: "Blog", href: "#" },
     { name: "Packages", href: "/packages" },
     { name: "Contact", href: "/contact" },
